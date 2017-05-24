@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Евгений Вареница](https://up.htmlacademy.ru/ecmascript/2/user/95848).
-* Наставник: [Игорь Антонов](https://htmlacademy.ru/profile/antonov).
+* Наставник: [Игорь Антонов](https://up.htmlacademy.ru/ecmascript/2/user/3162).
 
 ---
 
