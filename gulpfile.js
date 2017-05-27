@@ -12,6 +12,7 @@ const minify = require('gulp-csso');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const rollup = require('gulp-better-rollup');
+const sourcemaps = require('gulp-sourcemaps');
 
 gulp.task('style', function () {
   gulp.src('sass/style.scss')
@@ -42,7 +43,7 @@ gulp.task('scripts', function () {
     .pipe(sourcemaps.init())
     .pipe(rollup({}, 'iife'))
     .pipe(sourcemaps.write(''))
-    .pipe(gulp.dest('build/js/'));
+    .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('test', function () {
