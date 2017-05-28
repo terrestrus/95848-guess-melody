@@ -21,13 +21,13 @@ renderElement(templates.length - 1);
 document.addEventListener(`keydown`, function switchScreen(evt) {
 
   if (evt.altKey && evt.keyCode === 39) {
-    renderElement(position);
     position += 1;
+    renderElement(position);
   }
 
   if (evt.altKey && evt.keyCode === 37) {
-    renderElement(position);
     position -= 1;
+    renderElement(position);
   }
 });
 
