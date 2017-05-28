@@ -1,38 +1,33 @@
 const templates = document.querySelector(`#templates`).content.children;
 const app = document.querySelector(`section.main`);
 
-const render = (num) => {
-  app.innerHTML = ``;
-  let e = templates[num].cloneNode(true);
-  app.appendChild(e);
-};
-
-render(templates.length - 1);
 let position = templates.length - 1;
 
-document.addEventListener(`keydown`, (e) => {
+const renderElement = (num) => {
+  app.innerHTML = ``;
+  if (num > templates.length - 1) {
+    position = 0;
+    num = 0;
+  } else if (num < 0) {
+    position = templates.length - 1;
+    num = templates.length - 1;
+  }
+  let element = templates[num].cloneNode(true);
+  app.appendChild(element);
+};
 
-  if (e.altKey && e.keyCode === 39) {
+renderElement(templates.length - 1);
 
-    if (position === templates.length - 1) {
-      render(position);
-      position = 0;
-    } else {
-      position += 1;
-    }
-      render(position);
-      console.log(position);
+document.addEventListener(`keydown`, function switchScreen(evt) {
+
+  if (evt.altKey && evt.keyCode === 39) {
+    renderElement(position);
+    position += 1;
   }
 
-  if (e.altKey && e.keyCode === 37) {
-
-    if (position === 0) {
-      render(position);
-      position = templates.length - 1;
-    } else {
-      position -= 1;
-    }
-      render(position);
+  if (evt.altKey && evt.keyCode === 37) {
+    renderElement(position);
+    position -= 1;
   }
 });
 
