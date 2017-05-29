@@ -1,8 +1,7 @@
- const getElementFromTemplate = (str) => {
+const getElementFromTemplate = (str) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(str, `text/html`);
-  const el = doc.body.firstElementChild;
-  return el;
-}
+  return doc.body.firstElementChild;
+};
 
- export default getElementFromTemplate;
+export default getElementFromTemplate;

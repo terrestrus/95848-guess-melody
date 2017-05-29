@@ -1,6 +1,6 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import levelGenre from '../js/levelGenre.js';
-import render from '../js/render.js';
+import renderElement from '../js/render.js';
 
 const levelArtist = getElementFromTemplate(`<section class="main main--level main--level-artist">
     <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -50,10 +50,8 @@ const levelArtist = getElementFromTemplate(`<section class="main main--level mai
   </section>`);
 
 const answer = levelArtist.querySelectorAll(`.main-answer-r`);
+const nextScreen = () => renderElement(levelGenre);
 answer.forEach((ans) => {
-  ans.addEventListener('click', (e) => {
-    render(levelGenre);
-  });
+  ans.addEventListener(`click`, nextScreen);
 });
-
 export default levelArtist;

@@ -1,5 +1,5 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
-import render from '../js/render.js';
+import renderElement from '../js/render.js';
 import welcome from '../js/welcome.js';
 
 const result = getElementFromTemplate(`<section class="main main--result">
@@ -20,14 +20,11 @@ const resultLose = getElementFromTemplate(`<section class="main main--result">
   </section>`);
 
 const replay = result.querySelector(`.main-replay`);
-replay.addEventListener(`click`, () => {
-    render(welcome);
-});
+const startOver = () => renderElement(welcome);
+replay.addEventListener(`click`, startOver);
 
 const replayLose = resultLose.querySelector(`.main-replay`);
-replayLose.addEventListener(`click`, () => {
-  render(welcome);
-});
+replayLose.addEventListener(`click`, startOver);
 
 export {result, resultLose};
 

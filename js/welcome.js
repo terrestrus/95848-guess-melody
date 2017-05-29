@@ -1,6 +1,6 @@
 import getElementFromTemplate from '../js/getElementFromTemplate';
 import levelArtist from '../js/levelArtist.js';
-import render from '../js/render.js';
+import renderElement from '../js/render.js';
 
 
 const welcome = getElementFromTemplate(`<section class="main main--welcome">
@@ -15,9 +15,8 @@ const welcome = getElementFromTemplate(`<section class="main main--welcome">
   </section>`);
 
 const mainPlay = welcome.querySelector(`.main-play`);
-mainPlay.addEventListener(`click`, (e) => {
-  render(levelArtist);
-});
+const nextScreen = () => renderElement(levelArtist);
+mainPlay.addEventListener(`click`, nextScreen);
 
 export default welcome;
 

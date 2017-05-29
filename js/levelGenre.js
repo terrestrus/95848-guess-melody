@@ -1,5 +1,5 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
-import render from '../js/render.js';
+import renderElement from '../js/render.js';
 import {result, resultLose} from '../js/result.js';
 
 const levelGenre = getElementFromTemplate(`<section class="main main--level main--level-genre">
@@ -35,29 +35,29 @@ const levelGenre = getElementFromTemplate(`<section class="main main--level main
 
 const finalResult = levelGenre.querySelector(`.genre-answer-send`);
 const checkboxes = levelGenre.querySelectorAll(`input`);
-const form = levelGenre.querySelector(`.genre`);
-
 
 checkboxes.forEach((box) => {
   finalResult.disabled = true;
-  box.addEventListener(`click`, () => {
+  const changeBtnState = () => {
     if (box.checked === true) {
       finalResult.disabled = false;
     } else {
       finalResult.disabled = true;
     }
-  });
+  };
+  box.addEventListener(`click`, changeBtnState);
 });
 
-
-finalResult.addEventListener(`click`, (e) => {
+const takeRandomRes = () => {
   let rand = Math.floor(Math.random() * 2);
   if (rand < 1) {
-    render(result);
+    renderElement(result);
   } else {
-    render(resultLose);
+    renderElement(resultLose);
   }
-});
+};
+
+finalResult.addEventListener(`click`, takeRandomRes);
 
 
 export default levelGenre;
