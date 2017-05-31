@@ -46,7 +46,7 @@ checkboxes.forEach((box) => {
 
 const takeRandomRes = () => {
   let rand = Math.floor(Math.random() * 2);
-  rand < 1 ? renderElement(result) : renderElement(resultLose);
+  return rand < 1 ? renderElement(result) : renderElement(resultLose);
 };
 
 finalResult.addEventListener(`click`, takeRandomRes);
