@@ -39,22 +39,14 @@ const checkboxes = levelGenre.querySelectorAll(`input`);
 checkboxes.forEach((box) => {
   finalResult.disabled = true;
   const changeBtnState = () => {
-    if (box.checked === true) {
-      finalResult.disabled = false;
-    } else {
-      finalResult.disabled = true;
-    }
+    finalResult.disabled = !box.checked;
   };
   box.addEventListener(`click`, changeBtnState);
 });
 
 const takeRandomRes = () => {
   let rand = Math.floor(Math.random() * 2);
-  if (rand < 1) {
-    renderElement(result);
-  } else {
-    renderElement(resultLose);
-  }
+  rand < 1 ? renderElement(result) : renderElement(resultLose);
 };
 
 finalResult.addEventListener(`click`, takeRandomRes);
