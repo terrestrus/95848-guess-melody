@@ -10,7 +10,7 @@ const welcome = getElementFromTemplate(`<section class="main main--welcome">
     <p class="text main-text">
       Правила просты&nbsp;— за&nbsp;2 минуты дать
       максимальное количество правильных ответов.<br>
-      Удачи!
+      Удачи.
     </p>
   </section>`);
 
