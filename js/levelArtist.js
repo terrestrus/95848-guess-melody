@@ -1,20 +1,21 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import levelGenre from '../js/levelGenre.js';
 import renderElement from '../js/render.js';
+import play from '../js/play.js';
+import '../js/player.js';
+import '../js/time-format.js';
+import '../js/timer.js';
+import '../js/animate.js';
 
 const initialState = Object.freeze({
-  timeLeft: {
-    minutes: 20,
-    seconds: 0,
-  },
-
+  mainTitle: `Кто исполняет эту песню?`,
   answerVariants: [
     `Пелагея`,
     `Краснознаменная дивизия имени моей бабушки`,
     `Lorde`
   ],
-
 });
+
 
 const nextScreen = () => renderElement(levelGenre);
 
@@ -27,16 +28,16 @@ const artist = (state) => {
             style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
     
           <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${state.timeLeft.minutes.toString().length < 2 ? `0${state.timeLeft.minutes}` : state.timeLeft.minutes}</span><!--
+            <span class="timer-value-mins"></span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${state.timeLeft.seconds.toString().length < 2 ? `0${state.timeLeft.seconds}` : state.timeLeft.seconds}</span>
+            --><span class="timer-value-secs"></span>
           </div>
         </svg>
     
         <div class="main-wrap">
           <div class="main-timer"></div>
     
-          <h2 class="title main-title">Кто исполняет эту песню?</h2>
+          <h2 class="title main-title">${state.mainTitle}</h2>
           <div class="player-wrapper"></div>
           <form class="main-list">
            
@@ -65,6 +66,11 @@ const renderAnswerVars = (vars) => {
 };
 
 renderAnswerVars(initialState.answerVariants);
+
+const wrapper = levelArtist.querySelector(`.player-wrapper`);
+wrapper.appendChild(play);
+window.initializePlayer(wrapper, `../music/song1.mp3`, true);
+window.initializeCountdown(levelArtist);
 
 
 export default levelArtist;

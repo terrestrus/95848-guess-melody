@@ -1,37 +1,51 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import renderElement from '../js/render.js';
 import {result, resultLose} from '../js/result.js';
+import play from '../js/play.js';
+import '../js/player.js';
 
-const levelGenre = getElementFromTemplate(`<section class="main main--level main--level-genre">
-    <h2 class="title">Выберите инди-рок треки</h2>
-    <form class="genre">
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-1">
-        <label class="genre-answer-check" for="a-1"></label>
-      </div>
+const genreData = Object.freeze({
+  title: `Выберите инди-рок треки`,
+  songs: [
+    `song1`,
+    `song2`,
+    `song3`,
+    `song4`,
+  ]
+});
 
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-2">
-        <label class="genre-answer-check" for="a-2"></label>
-      </div>
+const genre = (data) => {
+  return `<section class="main main--level main--level-genre">
+      <h2 class="title">${data.title}</h2>
+      <form class="genre">
+     
+        <button class="genre-answer-send" type="submit">Ответить</button>
+      </form>
+    </section>`;
+};
 
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-3">
-        <label class="genre-answer-check" for="a-3"></label>
-      </div>
+const levelGenre = getElementFromTemplate(genre(genreData));
 
-      <div class="genre-answer">
-        <div class="player-wrapper"></div>
-        <input type="checkbox" name="answer" value="answer-1" id="a-4">
-        <label class="genre-answer-check" for="a-4"></label>
-      </div>
+const genreAnswer = (songs) => {
+  const form = levelGenre.querySelector(`.genre`);
+  const btn = levelGenre.querySelector(`.genre-answer-send`);
 
-      <button class="genre-answer-send" type="submit">Ответить</button>
-    </form>
-  </section>`);
+  songs.map((song, index) => {
+    const answer = document.createElement(`div`);
+    answer.className = `genre-answer`;
+    answer.innerHTML = ` <div class="player-wrapper"></div>
+                         <input type="checkbox" name="answer" value="answer-1" id="a-${index + 1}">
+                         <label class="genre-answer-check" for="a-${index + 1}"></label>`;
+
+
+    form.insertBefore(answer, btn);
+    const wrapper = answer.querySelector(`.player-wrapper`);
+    wrapper.appendChild(play);
+    window.initializePlayer(wrapper, `../music/${song}.mp3`);
+  });
+};
+genreAnswer(genreData.songs);
+
 
 const finalResult = levelGenre.querySelector(`.genre-answer-send`);
 const checkboxes = levelGenre.querySelectorAll(`input`);
