@@ -1,19 +1,8 @@
 import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import renderElement from '../js/render.js';
 import welcome from '../js/welcome.js';
+import {finalResults} from '../js/data.js';
 
-const finalResults = Object.freeze({
-  winResult: {
-    winTitle: `Вы настоящий меломан!`,
-    totalMinutes: 2,
-    percents: 80,
-    guessedSongs: 4,
-  },
-
-  loseResult: {
-    loseTitle: `Вы проиграли`,
-  }
-});
 
 const winResult = (state) => {
   return `<section class="main main--result">

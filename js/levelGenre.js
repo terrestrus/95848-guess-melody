@@ -3,30 +3,22 @@ import renderElement from '../js/render.js';
 import {result, resultLose} from '../js/result.js';
 import play from '../js/play.js';
 import '../js/player.js';
+import {genreData} from '../js/data.js';
 
-const genreData = Object.freeze({
-  title: `Выберите инди-рок треки`,
-  songs: [
-    `song1`,
-    `song2`,
-    `song3`,
-    `song4`,
-  ]
-});
 
-const genre = (data) => {
-  return `<section class="main main--level main--level-genre">
+const getGenreTemplate = (data) => {
+  return getElementFromTemplate(`<section class="main main--level main--level-genre">
       <h2 class="title">${data.title}</h2>
       <form class="genre">
      
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
-    </section>`;
+    </section>`);
 };
 
-const levelGenre = getElementFromTemplate(genre(genreData));
+const levelGenre = getGenreTemplate(genreData);
 
-const genreAnswer = (songs) => {
+const getGenreAnswers = (songs) => {
   const form = levelGenre.querySelector(`.genre`);
   const btn = levelGenre.querySelector(`.genre-answer-send`);
 
@@ -44,7 +36,7 @@ const genreAnswer = (songs) => {
     window.initializePlayer(wrapper, `../music/${song}.mp3`);
   });
 };
-genreAnswer(genreData.songs);
+getGenreAnswers(genreData.songs);
 
 
 const finalResult = levelGenre.querySelector(`.genre-answer-send`);
