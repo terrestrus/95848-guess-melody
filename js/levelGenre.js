@@ -10,7 +10,13 @@ const getGenreTemplate = (data) => {
   return getElementFromTemplate(`<section class="main main--level main--level-genre">
       <h2 class="title">${data.title}</h2>
       <form class="genre">
-     
+         ${genreData.songs.map((song, index) =>
+           `<div class="genre-answer">
+                        <div class="player-wrapper"></div>
+                         <input type="checkbox" name="answer" value="answer-1" id="a-${index + 1}">
+                         <label class="genre-answer-check" for="a-${index + 1}"></label>
+            
+            </div>`).join(``)}
         <button class="genre-answer-send" type="submit">Ответить</button>
       </form>
     </section>`);
@@ -18,25 +24,13 @@ const getGenreTemplate = (data) => {
 
 const levelGenre = getGenreTemplate(genreData);
 
-const getGenreAnswers = (songs) => {
-  const form = levelGenre.querySelector(`.genre`);
-  const btn = levelGenre.querySelector(`.genre-answer-send`);
 
-  songs.map((song, index) => {
-    const answer = document.createElement(`div`);
-    answer.className = `genre-answer`;
-    answer.innerHTML = ` <div class="player-wrapper"></div>
-                         <input type="checkbox" name="answer" value="answer-1" id="a-${index + 1}">
-                         <label class="genre-answer-check" for="a-${index + 1}"></label>`;
+const playerWrappers = Array.from(levelGenre.querySelectorAll(`.player-wrapper`));
 
-
-    form.insertBefore(answer, btn);
-    const wrapper = answer.querySelector(`.player-wrapper`);
-    wrapper.appendChild(play);
-    window.initializePlayer(wrapper, `../music/${song}.mp3`);
-  });
-};
-getGenreAnswers(genreData.songs);
+playerWrappers.map((wrapper, index) => {
+  wrapper.appendChild(play.cloneNode(true));
+  initializePlayer(wrapper, `${genreData.path}song${index + 1}.mp3`);
+});
 
 
 const finalResult = levelGenre.querySelector(`.genre-answer-send`);
