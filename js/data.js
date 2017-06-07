@@ -1,6 +1,10 @@
 const initialState = Object.freeze({
   title: `Кто исполняет эту песню?`,
-  songToGuess: `../music/song1.mp3`,
+  songToGuess: {
+    title: `song1`,
+    path: `../music/song1.mp3`,
+    isAnswer: true
+  },
   answerVariants: new Set([
     `Пелагея`,
     `Краснознаменная дивизия имени моей бабушки`,
@@ -12,10 +16,26 @@ const genreData = Object.freeze({
   title: `Выберите инди-рок треки`,
   path: `../music/`,
   songs: [
-    `song1`,
-    `song2`,
-    `song3`,
-    `song4`,
+    {
+      title: `song1`,
+      path: `../music/song1.mp3`,
+      isAnswer: true
+    },
+    {
+      title: `song2`,
+      path: `../music/song2.mp3`,
+      isAnswer: false
+    },
+    {
+      title: `song3`,
+      path: `../music/song3.mp3`,
+      isAnswer: false
+    },
+    {
+      title: `song4`,
+      path: `../music/song4.mp3`,
+      isAnswer: true
+    },
   ]
 });
 

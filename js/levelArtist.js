@@ -2,9 +2,9 @@ import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import levelGenre from '../js/levelGenre.js';
 import renderElement from '../js/render.js';
 import play from '../js/play.js';
-import '../js/player.js';
+import initializePlayer from '../js/player.js';
 import '../js/time-format.js';
-import '../js/timer.js';
+import initializeCountdown from '../js/timer.js';
 import '../js/animate.js';
 import {initialState} from '../js/data.js';
 
@@ -51,7 +51,7 @@ answersVars.forEach((answer) => answer.addEventListener(`click`, nextScreen));
 
 const wrapper = levelArtist.querySelector(`.player-wrapper`);
 wrapper.appendChild(play);
-initializePlayer(wrapper, initialState.songToGuess, true);
+initializePlayer(wrapper, initialState.songToGuess.path, true);
 initializeCountdown(levelArtist);
 
 

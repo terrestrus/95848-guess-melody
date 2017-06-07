@@ -39,7 +39,7 @@
  };
 
 
- window.initializeCountdown = (el) => {
+ const initializeCountdown = (el) => {
    const element = el.querySelector(`.timer-line`);
    const radius = parseInt(element.getAttributeNS(null, `r`), 10);
    const timer = el.querySelector(`.timer-value`);
@@ -50,3 +50,4 @@
    }, () => timer.classList.add(`timer-value--finished`));
  };
 
+ export default initializeCountdown;

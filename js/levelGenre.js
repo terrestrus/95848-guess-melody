@@ -2,7 +2,7 @@ import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import renderElement from '../js/render.js';
 import {result, resultLose} from '../js/result.js';
 import play from '../js/play.js';
-import '../js/player.js';
+import initializePlayer from '../js/player.js';
 import {genreData} from '../js/data.js';
 
 
@@ -29,7 +29,7 @@ const playerWrappers = Array.from(levelGenre.querySelectorAll(`.player-wrapper`)
 
 playerWrappers.map((wrapper, index) => {
   wrapper.appendChild(play.cloneNode(true));
-  initializePlayer(wrapper, `${genreData.path}song${index + 1}.mp3`);
+  initializePlayer(wrapper, `${genreData.songs[index].path}.mp3`);
 });
 
 
