@@ -7,3 +7,5 @@ window.formatTime = (total, passed) => {
     seconds: secondsLeft
   };
 };
+
+

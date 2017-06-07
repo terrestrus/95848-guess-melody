@@ -41,13 +41,11 @@ const destroyPlayer = (element, state) => {
   return true;
 };
 
-
-window.initializePlayer = (element, file, autoplay = false, controllable = true) => {
+const initializePlayer = (element, file, autoplay = false, controllable = true) => {
   let state = {};
 
-  const content = document.querySelector(`template`)
-    .content
-    .querySelector(`.player`)
+  const play = element.querySelector(`.player`);
+  const content = play
     .cloneNode(true);
   const player = content.querySelector(`audio`);
   const button = content.querySelector(`button`);
@@ -63,8 +61,12 @@ window.initializePlayer = (element, file, autoplay = false, controllable = true)
   };
 
   player.src = file;
+  element.innerHTML = ``;
   element.appendChild(content);
   element.classList.toggle(`player--no-controls`, !controllable);
 
   return () => destroyPlayer(element, state);
 };
+
+
+export default initializePlayer;
