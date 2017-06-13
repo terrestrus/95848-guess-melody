@@ -8,8 +8,8 @@ import initializeCountdown from '../js/timer.js';
 import '../js/animate.js';
 import {initialState} from '../js/data.js';
 
+const {oneOfThreeGame} = initialState;
 
-const nextScreen = () => renderElement(levelGenre);
 
 const getArtistTemplate = (state) => {
   return getElementFromTemplate(`<section class="main main--level main--level-artist">
@@ -29,29 +29,61 @@ const getArtistTemplate = (state) => {
         <div class="main-wrap">
           <div class="main-timer"></div>
     
-          <h2 class="title main-title">${state.title}</h2>
+          <h2 class="title main-title">Кто исполняет эту песню?</h2>
           <div class="player-wrapper"></div>
           <form class="main-list">
-            ${[...initialState.answerVariants].map((variant, index) =>
-              `<div class="main-answer-wrapper">
-                <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="val-1" />
+            ${[...oneOfThreeGame[0].answerVariants].map((variant, index) => {
+              return `<div class="main-answer-wrapper">
+                <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="${variant}" />
                 <label class="main-answer" for="answer-${index + 1}">
                 <img class="main-answer-preview" src="">
                  ${variant}
                 </label>
-                 </div>`).join(``)}
+                 </div>`;
+            }).join(``)}
           </form>
         </div>
       </section>`);
 };
 
-const levelArtist = getArtistTemplate(initialState);
+
+const levelArtist = getArtistTemplate(oneOfThreeGame);
 const answersVars = Array.from(levelArtist.querySelectorAll(`.main-answer-r`));
-answersVars.forEach((answer) => answer.addEventListener(`click`, nextScreen));
+
+
+
+const makeDecision = (evt, state) => {
+  const newState = Object.assign({}, state);
+
+  [...newState.oneOfThreeGame].map((answer) => {
+    if (evt.target.value === answer.songToGuess.title) {
+      newState.playerAnswers++;
+
+    } else {
+      if (newState.playerLives > 0) {
+        newState.playerAnswers--;
+        newState.playerLives--;
+      }
+    }
+    if (newState.numberOfQuestions > 0) {
+      newState.numberOfQuestions--;
+    }
+
+
+  });
+
+  return newState;
+};
+
+answersVars.forEach((answer) => answer.addEventListener(`click`, (evt) => {
+  makeDecision(evt, initialState);
+  renderElement(levelGenre);
+}));
+
 
 const wrapper = levelArtist.querySelector(`.player-wrapper`);
 wrapper.appendChild(play);
-initializePlayer(wrapper, initialState.songToGuess.path, true);
+initializePlayer(wrapper, oneOfThreeGame[0].songToGuess.path, true);
 initializeCountdown(levelArtist);
 
 
