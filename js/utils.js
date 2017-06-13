@@ -15,7 +15,6 @@ const countdown = (state) => {
   let intervalId = setInterval(() => {
     if (state.totalTime !== 0) {
       state.totalTime -= 1000;
-      console.log(state.totalTime)
     } else {
       clearInterval(intervalId);
     }

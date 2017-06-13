@@ -56,6 +56,7 @@ checkboxes.forEach((box) => {
 const userAnswer = (state) => {
   let newState = Object.assign({}, state);
   let answer = [];
+
   newState.allOfGenreGame.map((tracks) => {
     tracks.songs.map((song, index) => {
       if ((song.isAnswer && checkboxes[index].checked) ||
@@ -68,10 +69,10 @@ const userAnswer = (state) => {
     });
   });
 
-
   const newLevelGenre = getGenreTemplate(newState.allOfGenreGame);
   const newFinalResult = newLevelGenre.querySelector(`.genre-answer-send`);
-  const newCheckboxes = levelGenre.querySelectorAll(`input`);
+  const newCheckboxes = newLevelGenre.querySelectorAll(`input`);
+
 
   newCheckboxes.forEach((box) => {
     newFinalResult.disabled = true;
@@ -81,6 +82,7 @@ const userAnswer = (state) => {
     box.addEventListener(`click`, changeBtnState);
 
   });
+
 
   newFinalResult.addEventListener(`click`, (evt) => {
     evt.preventDefault();
@@ -109,10 +111,9 @@ const userAnswer = (state) => {
     renderElement(newLevelGenre);
   }
 
-
 };
 // ///////////////////////////////////
-
+userAnswer(initialState);
 
 finalResult.addEventListener(`click`, (evt) => {
   evt.preventDefault();
