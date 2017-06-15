@@ -3,8 +3,12 @@ const initialState = Object.freeze({
   totalTime: 120000,
   playerLives: 3,
   playerAnswers: 0,
-  oneOfThreeGame: [
+  currentState: {
+
+  },
+  games: [
     {
+      gameType: `guessSong`,
       songToGuess: {
         title: `Пелагея`,
         path: `../music/song1.mp3`,
@@ -15,10 +19,9 @@ const initialState = Object.freeze({
         `Краснознаменная дивизия имени моей бабушки`,
         `Lorde`
       ]),
-    }
-  ],
-  allOfGenreGame: [
+    },
     {
+      gameType: `guessGenre`,
       songs: [
         {
           title: `song1`,
@@ -42,8 +45,21 @@ const initialState = Object.freeze({
         },
       ]
     }
-  ]
+  ],
+  decQuestions() {
+    if (this.numberOfQuestions > 0) {
+      this.numberOfQuestions--;
+    }
+  },
+  incFail() {
+    if (this.playerLives > 0) {
+      this.playerLives--;
+    }
+  }
+
 });
+
+
 
 const finalResults = Object.freeze({
   winResult: {

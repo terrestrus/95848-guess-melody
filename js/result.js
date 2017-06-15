@@ -2,6 +2,31 @@ import getElementFromTemplate from '../js/getElementFromTemplate.js';
 import renderElement from '../js/render.js';
 import welcome from '../js/welcome.js';
 import {finalResults} from '../js/data.js';
+import {statistics} from '../js/data.js';
+
+const sortStat = (stat) => {
+  return [...new Set(stat)];
+};
+
+const sortedStat = sortStat(statistics);
+
+const getResult = (statistic) => {
+  let rand = Math.floor(Math.random() * statistics.length);
+  let answers = statistic[rand].answers;
+  if (rand === 0) {
+    return {
+      percent: 100,
+      answers
+    };
+  } else {
+    return {
+      percent: 100 - (rand / statistic.length * 100),
+      answers
+    };
+  }
+};
+
+const res = getResult(sortedStat);
 
 
 const winResult = (state) => {
@@ -9,8 +34,8 @@ const winResult = (state) => {
       <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
   
       <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;${state.totalMinutes}&nbsp;минуты<br>вы&nbsp;отгадали ${state.guessedSongs}&nbsp;мелодии</div>
-      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${state.percents}%&nbsp;игроков</span>
+      <div class="main-stat">За&nbsp;${state.totalMinutes}&nbsp;минуты<br>вы&nbsp;отгадали ${res.answers}&nbsp;мелодии</div>
+      <span class="main-comparison">Это&nbsp;лучше чем у&nbsp;${res.percent}%&nbsp;игроков</span>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
 };

@@ -11,14 +11,27 @@ const checkLives = (lives) => {
   return (lives > 0) ? true : false;
 };
 
-const countdown = (state) => {
+const countdown = (time) => {
+
   let intervalId = setInterval(() => {
-    if (state.totalTime !== 0) {
-      state.totalTime -= 1000;
+    if (time < 120) {
+      time++;
+      return time;
     } else {
       clearInterval(intervalId);
     }
   }, 1000);
+
+  return intervalId;
 };
 
-export {checkAnswer, checkLives, countdown};
+const stopCountdown = (countdow) => {
+  clearInterval(countdow);
+};
+
+const takeStat = (stat, state, time) => {
+  stat.push({time, answers: state.playerAnswers});
+};
+
+
+export {checkAnswer, checkLives, countdown, stopCountdown, takeStat};

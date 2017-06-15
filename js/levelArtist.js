@@ -8,7 +8,8 @@ import initializeCountdown from '../js/timer.js';
 import '../js/animate.js';
 import {initialState} from '../js/data.js';
 
-const {oneOfThreeGame} = initialState;
+
+const {games} = initialState;
 
 
 const getArtistTemplate = (state) => {
@@ -32,7 +33,7 @@ const getArtistTemplate = (state) => {
           <h2 class="title main-title">Кто исполняет эту песню?</h2>
           <div class="player-wrapper"></div>
           <form class="main-list">
-            ${[...oneOfThreeGame[0].answerVariants].map((variant, index) => {
+            ${[...games[0].answerVariants].map((variant, index) => {
               return `<div class="main-answer-wrapper">
                 <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="${variant}" />
                 <label class="main-answer" for="answer-${index + 1}">
@@ -47,33 +48,26 @@ const getArtistTemplate = (state) => {
 };
 
 
-const levelArtist = getArtistTemplate(oneOfThreeGame);
+const levelArtist = getArtistTemplate(games);
 const answersVars = Array.from(levelArtist.querySelectorAll(`.main-answer-r`));
-
-
 
 const makeDecision = (evt, state) => {
   const newState = Object.assign({}, state);
 
-  [...newState.oneOfThreeGame].map((answer) => {
-    if (evt.target.value === answer.songToGuess.title) {
-      newState.playerAnswers++;
-
-    } else {
-      if (newState.playerLives > 0) {
-        newState.playerAnswers--;
-        newState.playerLives--;
+  newState.games.map((answer) => {
+    if (answer.gameType === `guessSong`) {
+      if (evt.target.value === answer.songToGuess.title) {
+        newState.playerAnswers++;
+      } else {
+        newState.incFail();
       }
+      newState.decQuestions();
     }
-    if (newState.numberOfQuestions > 0) {
-      newState.numberOfQuestions--;
-    }
-
-
   });
 
   return newState;
 };
+
 
 answersVars.forEach((answer) => answer.addEventListener(`click`, (evt) => {
   makeDecision(evt, initialState);
@@ -83,7 +77,7 @@ answersVars.forEach((answer) => answer.addEventListener(`click`, (evt) => {
 
 const wrapper = levelArtist.querySelector(`.player-wrapper`);
 wrapper.appendChild(play);
-initializePlayer(wrapper, oneOfThreeGame[0].songToGuess.path, true);
+initializePlayer(wrapper, games[0].songToGuess.path, true);
 initializeCountdown(levelArtist);
 
 
