@@ -60,7 +60,6 @@ const initialState = Object.freeze({
 });
 
 
-
 const finalResults = Object.freeze({
   winResult: {
     winTitle: ``,

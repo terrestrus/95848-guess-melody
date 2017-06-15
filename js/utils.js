@@ -18,7 +18,7 @@ const countdown = (time) => {
       time++;
       return time;
     } else {
-      clearInterval(intervalId);
+      return clearInterval(intervalId);
     }
   }, 1000);
 
