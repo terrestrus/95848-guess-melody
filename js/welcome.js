@@ -1,22 +1,16 @@
-import getElementFromTemplate from '../js/getElementFromTemplate';
-import levelArtist from '../js/levelArtist.js';
-import renderElement from '../js/render.js';
+import renderElement from '../js/render';
+import WelcomeView from '../js/view/WelcomeView';
+import GuessSongView from '../js/view/GuessSongView';
+import {initialState} from '../js/data';
+import guessSong from '../js/levelArtist';
 
+const welcomeScreen = () => {
+  const welcome = new WelcomeView();
 
-const welcome = getElementFromTemplate(`<section class="main main--welcome">
-    <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
-    <button class="main-play">Начать игру</button>
-    <h2 class="title main-title">Правила игры</h2>
-    <p class="text main-text">
-      Правила просты&nbsp;— за&nbsp;2 минуты дать
-      максимальное количество правильных ответов.<br>
-      Удачи.
-    </p>
-  </section>`);
+  welcome.onStart = () => {
+    renderElement(guessSong(initialState));
+  };
+  return welcome.element;
+};
 
-const mainPlay = welcome.querySelector(`.main-play`);
-const nextScreen = () => renderElement(levelArtist);
-mainPlay.addEventListener(`click`, nextScreen);
-
-export default welcome;
-
+export default welcomeScreen;
