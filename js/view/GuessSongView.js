@@ -50,7 +50,7 @@ class GuessSongView extends AbstractView {
     const getAnswer = (evt) => {
       evt.preventDefault();
       this.makeDecision(evt);
-    }
+    };
     answers.map((answer) => {
       answer.addEventListener(`click`, (evt) => getAnswer(evt));
     });

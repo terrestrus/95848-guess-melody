@@ -1,20 +1,26 @@
 import renderElement from '../js/render';
-import {result} from '../js/result';
+import {winResult} from '../js/result';
 import play from '../js/play';
-import initializePlayer from '../js/player';
-import {initialState} from '../js/data';
 import {checkAnswer, checkLives} from '../js/utils';
 import GuessGenreView from '../js/view/GuessGenreView';
+import {gameTime} from '../js/levelArtist';
+import initializePlayer from '../js/player';
+import '../js/time-format';
+import initializeCountdown from '../js/timer';
 
-//
-// const playerWrappers = Array.from(levelGenre.querySelectorAll(`.player-wrapper`));
-// playerWrappers.map((wrapper, index) => {
-//   wrapper.appendChild(play.cloneNode(true));
-//   initializePlayer(wrapper, `${games[1].songs[index].path}`);
-// });
 
 const getAnswer = (state) => {
   const guessGenre = new GuessGenreView(state);
+  guessGenre.state.totalTime = gameTime;
+
+  const playerWrappers = Array.from(guessGenre.element.querySelectorAll(`.player-wrapper`));
+  playerWrappers.map((wrapper, index) => {
+    wrapper.appendChild(play.cloneNode(true));
+    initializePlayer(wrapper, `${guessGenre.state.games[1].songs[index].path}`);
+  });
+
+  initializeCountdown(guessGenre.element);
+
 
   const checkboxes = guessGenre.element.querySelectorAll(`input`);
   const resultBtn = guessGenre.element.querySelector(`.genre-answer-send`);
@@ -51,8 +57,7 @@ const getAnswer = (state) => {
           guessGenre.state.playerAnswers++;
         }
         guessGenre.state.decQuestions();
-        console.log(guessGenre.state);
-        renderElement(result);
+        renderElement(winResult(guessGenre.state));
       }
     });
   };

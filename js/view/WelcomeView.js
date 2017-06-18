@@ -2,6 +2,10 @@ import AbstractView from '../view/AbstractView';
 
 
 class WelcomeView extends AbstractView {
+  constructor(state) {
+    super();
+    this.state = Object.assign({}, state);
+  }
 
   get template() {
     return `<section class="main main--welcome">

@@ -1,5 +1,5 @@
 import getElementFromTemplate from '../getElementFromTemplate';
-import renderElement from '../render';
+
 
 class AbstractView {
   get template() {
