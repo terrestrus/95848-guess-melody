@@ -1,7 +1,8 @@
 import Welcome from '../js/welcome';
-import renderElement from '../js/render';
-import GuessSong from '../js/levelArtist';
+//import renderElement from '../js/render';
+//import GuessSong from '../js/levelArtist';
 import {WinResult} from '../js/result';
+import GamePresenter from '../js/GamePresenter';
 
 const ControllerID = {
   WELCOME: ``,
@@ -15,7 +16,7 @@ class Application {
   constructor() {
     this.routes = {
       [ControllerID.WELCOME]: Welcome,
-      [ControllerID.GAME]: GuessSong,
+      [ControllerID.GAME]: GamePresenter,
       [ControllerID.STATS]: WinResult
     };
 

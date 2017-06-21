@@ -3,6 +3,7 @@ import {statistics} from '../js/data';
 import WinResultView from '../js/view/WinResultView';
 import Welcome from '../js/welcome';
 import App from '../js/main';
+import LoseResultView from '../js/view/LoseResultView';
 
 const sortStat = (stat) => {
   return [...new Set(stat)];
@@ -45,6 +46,7 @@ class WinResult {
     renderElement(this.view);
 
     this.view.replay = () => {
+      clearInterval(this.state.timer);
       this.view = new Welcome();
       App.showWelcome();
       this.view.init();
@@ -54,16 +56,22 @@ class WinResult {
 
 }
 
+class LoseResult {
+  constructor(state) {
+    this.state = Object.assign({}, state);
+    this.view = new LoseResultView();
+  }
+  init() {
+    renderElement(this.view);
 
-const lose = (state) => {
-  return `<section class="main main--result">
-      <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+    this.view.replay = () => {
+      clearInterval(this.state.timer);
+      this.view = new Welcome();
+      App.showWelcome();
+      this.view.init();
+    };
+  }
+}
 
-      <h2 class="title">Вы проиграли</h2>
-      <div class="main-stat">Ничего, вам повезет в следующий раз</div>
-      <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
-    </section>`;
-};
-
-export {WinResult, lose};
+export {WinResult, LoseResult};
 

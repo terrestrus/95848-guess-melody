@@ -1,7 +1,7 @@
 const initialState = Object.freeze({
   numberOfQuestions: 10,
   totalTime: 0,
-  playerLives: 3,
+  playerLives: 1,
   playerAnswers: 0,
   currentIndex: 0,
 

@@ -65,7 +65,7 @@ class GuessGenre {
       App.showStats();
       this.view = new WinResult(this.state);
       this.view.init();
-      //renderElement(winResult(guessGenre.state));
+
     };
 
 
