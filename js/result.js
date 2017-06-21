@@ -1,9 +1,9 @@
 import renderElement from '../js/render';
 import {statistics} from '../js/data';
 import WinResultView from '../js/view/WinResultView';
-import welcomeScreen from '../js/welcome';
-import {gameTime} from '../js/levelArtist';
-import {initialState} from '../js/data';
+import Welcome from '../js/welcome';
+import App from '../js/main';
+
 const sortStat = (stat) => {
   return [...new Set(stat)];
 };
@@ -11,38 +11,48 @@ const sortStat = (stat) => {
 const sortedStat = sortStat(statistics);
 
 
-const winResult = (state) => {
-  const result = new WinResultView(state);
-
-
-  const getResult = (statistic) => {
-    let rand = Math.floor(Math.random() * statistics.length);
-    let randomRes = statistic[rand];
-    let {time, answers} = randomRes;
-    if (rand === 0) {
-      return {
-        percent: 100,
-        time,
-        answers,
-      };
-    } else {
-      return {
-        percent: 100 - (rand / statistic.length * 100),
-        time,
-        answers
-      };
-    }
-  };
-
-  result.replay = () => {
-    renderElement(welcomeScreen(initialState));
-  };
-
-  const res = getResult(sortedStat);
-  result.state.res = res;
-  result.state.totalTime = gameTime;
-  return result.element;
+const getResult = (statistic) => {
+  let rand = Math.floor(Math.random() * statistics.length);
+  let randomRes = statistic[rand];
+  let {answers, time} = randomRes;
+  if (rand === 0) {
+    return {
+      percent: 100,
+      time,
+      answers,
+    };
+  } else {
+    return {
+      percent: 100 - (rand / statistic.length * 100),
+      time,
+      answers
+    };
+  }
 };
+
+
+class WinResult {
+  constructor(state) {
+    this.state = Object.assign({}, state);
+    this.view = new WinResultView(this.state);
+  }
+
+
+  init() {
+    const res = getResult(sortedStat);
+    this.state.res = res;
+
+    renderElement(this.view);
+
+    this.view.replay = () => {
+      this.view = new Welcome();
+      App.showWelcome();
+      this.view.init();
+    };
+  }
+
+
+}
 
 
 const lose = (state) => {
@@ -55,5 +65,5 @@ const lose = (state) => {
     </section>`;
 };
 
-export {winResult, lose};
+export {WinResult, lose};
 

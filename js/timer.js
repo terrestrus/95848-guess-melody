@@ -12,7 +12,6 @@
 // Длина шага = Длина окружности / Количество шагов
 // Пропуск = Длина шага * Номер шага
 
-import {gameTime} from '../js/levelArtist';
 
 const redrawCircle = (circle, radius, animation) => {
   const length = 2 * Math.PI * radius;
@@ -42,11 +41,11 @@ const redrawTimer = (timer, animation) => {
 };
 
 
-const initializeCountdown = (el) => {
+const initializeCountdown = (el, state) => {
   const element = el.querySelector(`.timer-line`);
   const radius = parseInt(element.getAttributeNS(null, `r`), 10);
   const timer = el.querySelector(`.timer-value`);
-  return window.animation.animate(window.animation.getAnimation(gameTime, 1000, `${120 - gameTime}`), (animation) => {
+  return window.animation.animate(window.animation.getAnimation(state.totalTime, 1000, `${120 - state.totalTime}`), (animation) => {
     redrawCircle(element, radius, animation);
     redrawTimer(timer, animation);
 

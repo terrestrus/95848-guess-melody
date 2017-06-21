@@ -1,16 +1,22 @@
 import renderElement from '../js/render';
 import WelcomeView from '../js/view/WelcomeView';
-import {initialState} from '../js/data';
-import guessSong from '../js/levelArtist';
+import App from '../js/main';
+// import {initialState} from '../js/data';
+// import guessSong from '../js/levelArtist';
 
-const welcomeScreen = () => {
+class Welcome {
+  constructor() {
+    this.view = new WelcomeView();
+  }
 
-  const welcome = new WelcomeView(initialState);
+  init() {
+    renderElement(this.view);
 
-  welcome.onStart = () => {
-    renderElement(guessSong(welcome.state));
-  };
-  return welcome.element;
-};
+    this.view.onStart = () => {
+      App.showGame();
+    };
+  }
 
-export default welcomeScreen;
+}
+
+export default Welcome;

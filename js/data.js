@@ -1,8 +1,9 @@
 const initialState = Object.freeze({
   numberOfQuestions: 10,
-  totalTime: 120,
+  totalTime: 0,
   playerLives: 3,
   playerAnswers: 0,
+  currentIndex: 0,
 
   games: [
     {
@@ -47,6 +48,7 @@ const initialState = Object.freeze({
   decQuestions() {
     if (this.numberOfQuestions > 0) {
       this.numberOfQuestions--;
+      this.currentIndex++;
     }
   },
   incFail() {
