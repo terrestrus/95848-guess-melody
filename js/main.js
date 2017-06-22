@@ -1,5 +1,6 @@
-import welcome from '../js/welcome.js';
-import renderElement from '../js/render.js';
+import welcomeScreen from '../js/welcome';
+import renderElement from '../js/render';
 
-renderElement(welcome);
+
+renderElement(welcomeScreen());
 

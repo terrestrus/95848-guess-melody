@@ -1,11 +1,9 @@
 const initialState = Object.freeze({
   numberOfQuestions: 10,
-  totalTime: 120000,
+  totalTime: 120,
   playerLives: 3,
   playerAnswers: 0,
-  currentState: {
 
-  },
   games: [
     {
       gameType: `guessSong`,

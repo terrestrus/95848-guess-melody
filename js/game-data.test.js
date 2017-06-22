@@ -13,7 +13,7 @@ describe(`The number of questions`, () => {
 
 describe(`Total game time`, () => {
   it(`total time of game should be 2 minutes`, () => {
-    assert.equal(120000, initialState.totalTime);
+    assert.equal(120, initialState.totalTime);
   });
 });
 
