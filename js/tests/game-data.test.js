@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {initialState} from '../js/data.js';
-import {checkAnswer, checkLives} from '../js/utils.js';
+import {initialState} from '../data.js';
+import {checkAnswer, checkLives} from '../lib/utils.js';
 
 describe(`The number of questions`, () => {
   it(`should be 10 questions in the game`, () => {
@@ -13,7 +13,7 @@ describe(`The number of questions`, () => {
 
 describe(`Total game time`, () => {
   it(`total time of game should be 2 minutes`, () => {
-    assert.equal(120, initialState.totalTime);
+    assert.equal(0, initialState.totalTime);
   });
 });
 
@@ -31,5 +31,7 @@ describe(`Check lives`, () => {
     assert.equal(true, checkLives(2));
     assert.equal(false, checkLives(0));
   });
+
+
 });
 

@@ -1,13 +1,13 @@
-import renderElement from '../js/render';
-import play from '../js/play';
-import initializePlayer from '../js/player';
-import '../js/time-format';
-import initializeCountdown from '../js/timer';
-import '../js/animate.js';
-import GuessSongView from '../js/view/GuessSongView';
-import {initialState} from '../js/data';
-import GamePresenter from '../js/GamePresenter';
-
+import renderElement from '../lib/render';
+import player from '../view/PlayerView';
+import initializePlayer from '../lib/player';
+import '../lib/time-format';
+import initializeCountdown from '../lib/timer';
+import '../lib/animate.js';
+import GuessSongView from '../view/GuessSongView';
+import {initialState} from '../data';
+import GamePresenter from '../model/GamePresenter';
+import {rightAnswer} from '../lib/utils';
 
 class GuessSong {
   constructor(state = initialState) {
@@ -20,7 +20,7 @@ class GuessSong {
     renderElement(this.view);
 
     const wrapper = this.view.element.querySelector(`.player-wrapper`);
-    wrapper.appendChild(play);
+    wrapper.appendChild(player);
     initializePlayer(wrapper, this.state.games[this.state.currentIndex].songToGuess.path, true);
 
     initializeCountdown(this.view.element, this.state);
@@ -28,7 +28,7 @@ class GuessSong {
     this.view.makeDecision = (evt) => {
 
       if (evt.target.value === this.state.games[this.state.currentIndex].songToGuess.title) {
-        this.state.playerAnswers++;
+        rightAnswer(window.timePassed, this.state);
       } else {
         this.state.incFail();
       }

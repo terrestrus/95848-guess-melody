@@ -1,9 +1,9 @@
-import renderElement from '../js/render';
-import {statistics} from '../js/data';
-import WinResultView from '../js/view/WinResultView';
-import Welcome from '../js/welcome';
-import App from '../js/main';
-import LoseResultView from '../js/view/LoseResultView';
+import renderElement from '../lib/render';
+import {statistics} from '../data';
+import WinResultView from '../view/WinResultView';
+import Welcome from '../model/Welcome';
+import App from '../main';
+import LoseResultView from '../view/LoseResultView';
 
 const sortStat = (stat) => {
   return [...new Set(stat)];
@@ -40,8 +40,7 @@ class WinResult {
 
 
   init() {
-    const res = getResult(sortedStat);
-    this.state.res = res;
+    this.state.res = getResult(sortedStat);
 
     renderElement(this.view);
 

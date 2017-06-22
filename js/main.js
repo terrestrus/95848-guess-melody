@@ -1,13 +1,12 @@
-import Welcome from '../js/welcome';
-//import renderElement from '../js/render';
-//import GuessSong from '../js/levelArtist';
-import {WinResult} from '../js/result';
-import GamePresenter from '../js/GamePresenter';
+import Welcome from './model/Welcome';
+import {WinResult, LoseResult} from './model/Result';
+import GamePresenter from './model/GamePresenter';
 
 const ControllerID = {
   WELCOME: ``,
   GAME: `game`,
-  STATS: `statistics`
+  STATS: `statistics`,
+  LOSE: `you-lose`
 };
 
 const getControllerIDFromHash = (hash) => hash.replace(`#`, ``);
@@ -17,7 +16,8 @@ class Application {
     this.routes = {
       [ControllerID.WELCOME]: Welcome,
       [ControllerID.GAME]: GamePresenter,
-      [ControllerID.STATS]: WinResult
+      [ControllerID.STATS]: WinResult,
+      [ControllerID.LOSE]: LoseResult
     };
 
     window.addEventListener(`hashchange`, () => {
@@ -44,6 +44,10 @@ class Application {
 
   showStats() {
     location.hash = ControllerID.STATS;
+  }
+
+  showLose() {
+    location.hash = ControllerID.LOSE;
   }
 
 

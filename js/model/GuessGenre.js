@@ -1,12 +1,11 @@
-import renderElement from '../js/render';
-import {WinResult} from '../js/result';
-import play from '../js/play';
-import {checkAnswer, checkLives} from '../js/utils';
-import GuessGenreView from '../js/view/GuessGenreView';
-import initializePlayer from '../js/player';
-import '../js/time-format';
-import initializeCountdown from '../js/timer';
-import App from '../js/main';
+import renderElement from '../lib/render';
+import GamePresenter from '../model/GamePresenter';
+import player from '../view/PlayerView';
+import {checkAnswer, checkLives, rightAnswer} from '../lib/utils';
+import GuessGenreView from '../view/GuessGenreView';
+import initializePlayer from '../lib/player';
+import '../lib/time-format';
+import initializeCountdown from '../lib/timer';
 
 
 class GuessGenre {
@@ -21,7 +20,7 @@ class GuessGenre {
 
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
     playerWrappers.map((wrapper, index) => {
-      wrapper.appendChild(play.cloneNode(true));
+      wrapper.appendChild(player.cloneNode(true));
       initializePlayer(wrapper, `${this.state.games[this.state.currentIndex].songs[index].path}`);
     });
 
@@ -42,28 +41,27 @@ class GuessGenre {
 
     this.view.makeDecision = () => {
 
-      let ans = [];
+      let answersArray = [];
 
       this.state.games[this.state.currentIndex].songs.map((song, index) => {
         if ((song.isAnswer && checkboxes[index].checked) ||
               (!song.isAnswer && !checkboxes[index].checked)) {
-          ans.push(true);
+          answersArray.push(true);
         } else {
-          ans.push(false);
+          answersArray.push(false);
         }
       });
 
 
-      if (!checkAnswer(ans)) {
+      if (!checkAnswer(answersArray)) {
         if (checkLives(this.state.playerLives)) {
           this.state.incFail();
         }
       } else {
-        this.state.playerAnswers++;
+        rightAnswer(window.timePassed, this.state);
       }
       this.state.decQuestions();
-      App.showStats();
-      this.view = new WinResult(this.state);
+      this.view = new GamePresenter(this.state);
       this.view.init();
 
     };

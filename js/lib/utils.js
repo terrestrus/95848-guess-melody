@@ -33,5 +33,12 @@ const takeStat = (stat, state, time) => {
   stat.push({time, answers: state.playerAnswers});
 };
 
+const rightAnswer = (timePassed, state) => {
+  if (timePassed - state.totalTime < 10) {
+    state.playerAnswers += 2;
+  } else {
+    state.playerAnswers++;
+  }
+};
 
-export {checkAnswer, checkLives, countdown, stopCountdown, takeStat};
+export {checkAnswer, checkLives, countdown, stopCountdown, takeStat, rightAnswer};
