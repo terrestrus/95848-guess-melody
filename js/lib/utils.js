@@ -39,6 +39,15 @@ const rightAnswer = (timePassed, state) => {
   } else {
     state.playerAnswers++;
   }
+  state.numberOfGuessedMelodies++;
 };
 
-export {checkAnswer, checkLives, countdown, stopCountdown, takeStat, rightAnswer};
+const sortStat = (stat) => {
+  stat = stat.slice();
+  const answersSort = stat.sort((a, b) => a.time - b.time);
+  return answersSort.sort((a, b) => b.answers - a.answers);
+
+};
+
+
+export {checkAnswer, checkLives, countdown, stopCountdown, takeStat, rightAnswer, sortStat};

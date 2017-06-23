@@ -4,7 +4,8 @@ const initialState = Object.freeze({
   playerLives: 3,
   playerAnswers: 0,
   currentIndex: 0,
-
+  numberOfGuessedMelodies: 0,
+  statistics: [],
   games: [
     {
       gameType: `guessSong`,

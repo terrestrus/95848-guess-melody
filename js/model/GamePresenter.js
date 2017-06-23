@@ -3,6 +3,7 @@ import GuessSong from '../model/GuessSong';
 import {initialState} from '../data';
 import {LoseResult, WinResult} from '../model/Result';
 import App from '../main';
+import {rightAnswer} from '../lib/utils';
 
 window.timePassed = 0;
 
@@ -44,6 +45,7 @@ class GamePresenter {
           App.showStats();
           clearInterval(this.state.timer);
           this.state.totalTime = window.timePassed;
+          rightAnswer(window.timePassed, this.state);
           window.timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();
@@ -68,6 +70,7 @@ class GamePresenter {
           App.showStats();
           clearInterval(this.state.timer);
           this.state.totalTime = window.timePassed;
+          rightAnswer(window.timePassed, this.state);
           window.timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();

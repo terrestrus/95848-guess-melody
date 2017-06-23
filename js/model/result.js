@@ -1,35 +1,29 @@
 import renderElement from '../lib/render';
-import {statistics} from '../data';
 import WinResultView from '../view/WinResultView';
 import Welcome from '../model/Welcome';
 import App from '../main';
 import LoseResultView from '../view/LoseResultView';
-
-const sortStat = (stat) => {
-  return [...new Set(stat)];
-};
-
-const sortedStat = sortStat(statistics);
+import {sortStat} from '../lib/utils';
 
 
-const getResult = (statistic) => {
-  let rand = Math.floor(Math.random() * statistics.length);
-  let randomRes = statistic[rand];
-  let {answers, time} = randomRes;
-  if (rand === 0) {
-    return {
-      percent: 100,
-      time,
-      answers,
-    };
-  } else {
-    return {
-      percent: 100 - (rand / statistic.length * 100),
-      time,
-      answers
-    };
-  }
-};
+// const getResult = (statistic) => {
+//   let rand = Math.floor(Math.random() * statistics.length);
+//   let randomRes = statistic[rand];
+//   let {answers, time} = randomRes;
+//   if (rand === 0) {
+//     return {
+//       percent: 100,
+//       time,
+//       answers,
+//     };
+//   } else {
+//     return {
+//       percent: 100 - (rand / statistic.length * 100),
+//       time,
+//       answers
+//     };
+//   }
+// };
 
 
 class WinResult {
@@ -40,7 +34,27 @@ class WinResult {
 
 
   init() {
-    this.state.res = getResult(sortedStat);
+    const latestResult = {
+      time: this.state.totalTime,
+      answers: this.state.playerAnswers
+    };
+
+    this.state.statistics.push(latestResult);
+    this.state.statistics = sortStat(this.state.statistics);
+
+    this.state.statistics.map((result, index) => {
+      if (result === latestResult &&
+          this.state.statistics.length > 1) {
+        if ((index + 1) / this.state.statistics.length === 1) {
+          this.state.percent = 0;
+        } else {
+          this.state.percent = Math.round(100 - ((index + 1) / this.state.statistics.length * 100));
+        }
+      } else if (result === latestResult &&
+                 index === 0) {
+        this.state.percent = 100;
+      }
+    });
 
     renderElement(this.view);
 
