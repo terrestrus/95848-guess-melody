@@ -42,16 +42,23 @@ class GamePresenter {
         }
 
         if (this.state.numberOfQuestions === 1) {
-          App.showStats();
+          rightAnswer(window.timePassed, this.state);
+
+          App.showStats(this.state.scoresForAnswer);
+
           clearInterval(this.state.timer);
           this.state.totalTime = window.timePassed;
-          rightAnswer(window.timePassed, this.state);
+
           window.timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();
+
           break;
         }
         this.state.totalTime = window.timePassed;
+        if (this.state.scoresForAnswer.length > 9) {
+          this.state.scoresForAnswer = [];
+        }
         this.view = new GuessSong(this.state);
         this.view.init();
         break;
@@ -67,16 +74,22 @@ class GamePresenter {
         }
 
         if (this.state.numberOfQuestions === 1) {
-          App.showStats();
+          rightAnswer(window.timePassed, this.state);
+          App.showStats(this.state.scoresForAnswer);
+
           clearInterval(this.state.timer);
           this.state.totalTime = window.timePassed;
-          rightAnswer(window.timePassed, this.state);
+
           window.timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();
+
           break;
         }
         this.state.totalTime = window.timePassed;
+        if (this.state.scoresForAnswer.length > 9) {
+          this.state.scoresForAnswer = [];
+        }
         this.view = new GuessGenre(this.state);
         this.view.init();
 

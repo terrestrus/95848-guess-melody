@@ -5,7 +5,9 @@ const initialState = Object.freeze({
   playerAnswers: 0,
   currentIndex: 0,
   numberOfGuessedMelodies: 0,
-  statistics: [],
+  latestResult: {},
+  scoresForAnswer: [],
+
   games: [
     {
       gameType: `guessSong`,
@@ -202,25 +204,10 @@ const initialState = Object.freeze({
 });
 
 
-const finalResults = Object.freeze({
-  winResult: {
-    winTitle: ``,
-    totalMinutes: 2,
-    percents: 80,
-    guessedSongs: 4,
-  },
-
-  loseResult: {
-    loseTitle: ``,
-  }
-});
-
-const statistics = [
-  {time: 20, answers: 10},
-  {time: 32, answers: 10},
-  {time: 44, answers: 10},
-  {time: 20, answers: 8},
-  {time: 50, answers: 7}
+let statistics = [
+  {time: 22, answers: 8, moves: `22222222`},
+  {time: 12, answers: 9, moves: `222222222`},
+  {time: 24, answers: 10, moves: `2222222222`}
 ];
 
-export {initialState, finalResults, statistics};
+export {initialState, statistics};

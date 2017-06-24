@@ -11,23 +11,6 @@ const checkLives = (lives) => {
   return (lives > 0) ? true : false;
 };
 
-const countdown = (time) => {
-
-  let intervalId = setInterval(() => {
-    if (time < 120) {
-      time++;
-      return time;
-    } else {
-      return clearInterval(intervalId);
-    }
-  }, 1000);
-
-  return intervalId;
-};
-
-const stopCountdown = (countdow) => {
-  clearInterval(countdow);
-};
 
 const takeStat = (stat, state, time) => {
   stat.push({time, answers: state.playerAnswers});
@@ -36,8 +19,10 @@ const takeStat = (stat, state, time) => {
 const rightAnswer = (timePassed, state) => {
   if (timePassed - state.totalTime < 10) {
     state.playerAnswers += 2;
+    state.scoresForAnswer.push(2);
   } else {
     state.playerAnswers++;
+    state.scoresForAnswer.push(1);
   }
   state.numberOfGuessedMelodies++;
 };
@@ -50,4 +35,4 @@ const sortStat = (stat) => {
 };
 
 
-export {checkAnswer, checkLives, countdown, stopCountdown, takeStat, rightAnswer, sortStat};
+export {checkAnswer, checkLives, takeStat, rightAnswer, sortStat};

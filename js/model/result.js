@@ -4,27 +4,7 @@ import Welcome from '../model/Welcome';
 import App from '../main';
 import LoseResultView from '../view/LoseResultView';
 import {sortStat} from '../lib/utils';
-
-
-// const getResult = (statistic) => {
-//   let rand = Math.floor(Math.random() * statistics.length);
-//   let randomRes = statistic[rand];
-//   let {answers, time} = randomRes;
-//   if (rand === 0) {
-//     return {
-//       percent: 100,
-//       time,
-//       answers,
-//     };
-//   } else {
-//     return {
-//       percent: 100 - (rand / statistic.length * 100),
-//       time,
-//       answers
-//     };
-//   }
-// };
-
+import {statistics} from '../data';
 
 class WinResult {
   constructor(state) {
@@ -32,40 +12,56 @@ class WinResult {
     this.view = new WinResultView(this.state);
   }
 
+  findPercent(latestResult) {
+    const sortedStatistics = sortStat(statistics);
 
-  init() {
-    const latestResult = {
-      time: this.state.totalTime,
-      answers: this.state.playerAnswers
-    };
-
-    this.state.statistics.push(latestResult);
-    this.state.statistics = sortStat(this.state.statistics);
-
-    this.state.statistics.map((result, index) => {
+    sortedStatistics.map((result, index) => {
       if (result === latestResult &&
-          this.state.statistics.length > 1) {
-        if ((index + 1) / this.state.statistics.length === 1) {
+        statistics.length > 1) {
+        if ((index + 1) / sortedStatistics.length === 1) {
           this.state.percent = 0;
         } else {
-          this.state.percent = Math.round(100 - ((index + 1) / this.state.statistics.length * 100));
+          this.state.percent = Math.round(100 - ((index + 1) / sortedStatistics.length * 100));
         }
       } else if (result === latestResult &&
-                 index === 0) {
+        index === 0) {
         this.state.percent = 100;
       }
     });
+  }
+  init() {
+    if (!this.state.playerAnswers) {
 
-    renderElement(this.view);
+      this.view = new WinResultView(this.state);
+      renderElement(this.view);
 
+    } else {
+      const moves = this.state.scoresForAnswer.toString().replace(/,/gi, ``);
+
+      this.state.latestResult = {
+        time: this.state.totalTime,
+        answers: this.state.playerAnswers,
+        moves
+      };
+
+      statistics.push(this.state.latestResult);
+
+
+      this.findPercent(this.state.latestResult);
+
+      App.showStats(this.state.scoresForAnswer);
+      renderElement(this.view);
+
+
+    }
     this.view.replay = () => {
       clearInterval(this.state.timer);
+      this.view.state.scoresForAnswer = [];
       this.view = new Welcome();
       App.showWelcome();
       this.view.init();
     };
   }
-
 
 }
 
