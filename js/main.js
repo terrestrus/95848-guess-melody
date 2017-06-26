@@ -1,11 +1,12 @@
 import Welcome from './model/Welcome';
 import {WinResult, LoseResult} from './model/Result';
 import GamePresenter from './model/GamePresenter';
-
+import {statistics} from '../js/data';
+import {sortStat} from '../js/lib/utils';
 const ControllerID = {
   WELCOME: ``,
   GAME: `game`,
-  STATS: `statistics`,
+  STATS: `stat`,
   LOSE: `you-lose`
 };
 
@@ -26,8 +27,32 @@ class Application {
   }
 
   changeController(route = ``) {
-    const Controller = this.routes[route];
-    new Controller().init();
+    if (route.startsWith(`stat=`)) {
+
+      let state;
+      const thisResult = location.hash.slice(6);
+      this.showStats(thisResult);
+      const sortedStatistics = sortStat(statistics);
+      sortedStatistics.map((result, index) => {
+        if (result.moves === thisResult) {
+          state = sortedStatistics[index];
+          if ((index + 1) / sortedStatistics.length === 1) {
+            state.percent = 0;
+          } else {
+            state.percent = Math.round(100 - ((index + 1) / sortedStatistics.length * 100));
+          }
+
+          const Controller = this.routes[ControllerID.STATS];
+          new Controller(state).init();
+
+        }
+      });
+
+    } else {
+      const Controller = this.routes[route];
+      new Controller().init();
+    }
+
   }
 
   init() {
@@ -42,8 +67,13 @@ class Application {
     location.hash = ControllerID.GAME;
   }
 
-  showStats() {
-    location.hash = ControllerID.STATS;
+  showStats(state) {
+    if (state) {
+      let scores = state.toString().replace(/,/gi, ``);
+      location.hash = ControllerID.STATS + `=${scores}`;
+    } else {
+      location.hash = ControllerID.STATS;
+    }
   }
 
   showLose() {
