@@ -7,7 +7,7 @@ class GuessSongView extends AbstractView {
   }
 
   get template() {
-    const answerVariants = this.state.games[0].answerVariants;
+    const answerVariants = this.state.games[this.state.currentIndex].answerVariants;
 
     return `<section class="main main--level main--level-artist">
         <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">

@@ -1,17 +1,13 @@
 import AbstractView from '../view/AbstractView';
 
-class WinResultView extends AbstractView {
-  constructor(state) {
-    super();
-    this.state = state;
-  }
+class LoseResultView extends AbstractView {
+
   get template() {
     return `<section class="main main--result">
       <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
-  
-      <h2 class="title">Вы настоящий меломан!</h2>
-      <div class="main-stat">За&nbsp;${this.state.totalTime}&nbsp; секунд<br>вы&nbsp;отгадали ${this.state.numberOfGuessedMelodies} &nbsp;мелодии</div>
-      <span class="main-comparison">Это&nbsp;лучше чем у ${this.state.percent}&nbsp;%&nbsp;игроков</span>
+
+      <h2 class="title">Вы проиграли</h2>
+      <div class="main-stat">Ничего, вам повезет в следующий раз</div>
       <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
     </section>`;
   }
@@ -27,4 +23,4 @@ class WinResultView extends AbstractView {
   }
 }
 
-export default WinResultView;
+export default LoseResultView;

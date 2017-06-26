@@ -7,7 +7,7 @@ class GuessGenreView extends AbstractView {
   }
 
   get template() {
-    const songs = this.state.games[1].songs;
+    const songs = this.state.games[this.state.currentIndex].songs;
 
     return `
       <section class="main main--level main--level-genre">

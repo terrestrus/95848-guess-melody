@@ -1,13 +1,12 @@
-import getElementFromTemplate from '../getElementFromTemplate';
-
-
 class AbstractView {
   get template() {
     throw new Error(`Method can't be implemented in abstract view`);
   }
 
   render() {
-    return getElementFromTemplate(this.template);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(this.template, `text/html`);
+    return doc.body.firstElementChild;
   }
 
   bind() {}
