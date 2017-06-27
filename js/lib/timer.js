@@ -45,7 +45,9 @@ const initializeCountdown = (el, state) => {
   const element = el.querySelector(`.timer-line`);
   const radius = parseInt(element.getAttributeNS(null, `r`), 10);
   const timer = el.querySelector(`.timer-value`);
+  console.log(state.totalTime)
   return window.animation.animate(window.animation.getAnimation(state.totalTime, 1000, `${120 - state.totalTime}`), (animation) => {
+
     redrawCircle(element, radius, animation);
     redrawTimer(timer, animation);
 

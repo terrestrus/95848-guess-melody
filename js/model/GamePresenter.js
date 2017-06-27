@@ -5,92 +5,100 @@ import {LoseResult, WinResult} from '../model/Result';
 import App from '../main';
 import {rightAnswer} from '../lib/utils';
 
-window.timePassed = 0;
+export let timePassed = 0;
+
+const GameType = {
+  GENRE: `genre`,
+  ARTIST: `artist`
+};
 
 class GamePresenter {
-  constructor(state = initialState) {
+  constructor(data, state = initialState) {
     this.state = Object.assign({}, state);
+    this.data = data;
   }
 
   init() {
+    console.log(this.state);
+    console.log(this.data);
     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
-        if (window.timePassed === 120) {
-          App.showLose();
+        if (timePassed === 120) {
           clearInterval(this.state.timer);
-          window.timePassed = 0;
-          this.view = new LoseResult();
+          timePassed = 0;
+          this.view = new LoseResult(this.state);
+          App.showLose();
           this.view.init();
         }
-        return window.timePassed++;
+        return timePassed++;
       }, 1000);
 
 
     }
 
-    switch (this.state.games[this.state.currentIndex].gameType) {
-      case `guessSong`:
+
+    switch (this.data[this.state.currentIndex].type) {
+      case GameType.ARTIST:
         if (this.state.playerLives < 1) {
           clearInterval(this.state.timer);
-          window.timePassed = 0;
+          timePassed = 0;
 
           App.showLose();
-          this.view = new LoseResult();
+          this.view = new LoseResult(this.state);
           this.view.init();
           break;
         }
 
         if (this.state.numberOfQuestions === 1) {
-          rightAnswer(window.timePassed, this.state);
+          rightAnswer(timePassed, this.state);
 
           App.showStats(this.state.scoresForAnswer);
 
           clearInterval(this.state.timer);
-          this.state.totalTime = window.timePassed;
+          this.state.totalTime = timePassed;
 
-          window.timePassed = 0;
+          timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();
 
           break;
         }
-        this.state.totalTime = window.timePassed;
+        this.state.totalTime = timePassed;
         if (this.state.scoresForAnswer.length > 9) {
           this.state.scoresForAnswer = [];
         }
-        this.view = new GuessSong(this.state);
+        this.view = new GuessSong(this.data, this.state);
         this.view.init();
         break;
-      case `guessGenre`:
+      case GameType.GENRE:
         if (this.state.playerLives < 1) {
           App.showLose();
-
           clearInterval(this.state.timer);
-          window.timePassed = 0;
-          this.view = new LoseResult();
+          timePassed = 0;
+          this.view = new LoseResult(this.state);
           this.view.init();
           break;
         }
 
         if (this.state.numberOfQuestions === 1) {
-          rightAnswer(window.timePassed, this.state);
+          rightAnswer(timePassed, this.state);
           App.showStats(this.state.scoresForAnswer);
 
           clearInterval(this.state.timer);
-          this.state.totalTime = window.timePassed;
+          this.state.totalTime = timePassed;
 
-          window.timePassed = 0;
+          timePassed = 0;
           this.view = new WinResult(this.state);
           this.view.init();
 
           break;
         }
-        this.state.totalTime = window.timePassed;
+        this.state.totalTime = timePassed;
         if (this.state.scoresForAnswer.length > 9) {
           this.state.scoresForAnswer = [];
         }
-        this.view = new GuessGenre(this.state);
+        this.view = new GuessGenre(this.data, this.state);
         this.view.init();
 
     }

@@ -1,13 +1,14 @@
 import AbstractView from '../view/AbstractView';
 
 class GuessSongView extends AbstractView {
-  constructor(state) {
+  constructor(data, state) {
     super();
     this.state = Object.assign({}, state);
+    this.data = data;
   }
 
   get template() {
-    const answerVariants = this.state.games[this.state.currentIndex].answerVariants;
+    const answerVariants = this.data[this.state.currentIndex].answers;
 
     return `<section class="main main--level main--level-artist">
         <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
@@ -31,10 +32,10 @@ class GuessSongView extends AbstractView {
           <form class="main-list">
             ${[...answerVariants].map((variant, index) => {
               return `<div class="main-answer-wrapper">
-            <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="${variant}" />
+            <input class="main-answer-r" type="radio" id="answer-${index + 1}" name="answer" value="${variant.title}" />
             <label class="main-answer" for="answer-${index + 1}">
-            <img class="main-answer-preview" src="">
-                 ${variant}
+            <img class="main-answer-preview" src="${variant.image.url}">
+                 ${variant.title}
             </label>
             </div>`;
             })}

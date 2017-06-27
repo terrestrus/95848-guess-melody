@@ -1,8 +1,10 @@
-import Welcome from './model/Welcome';
-import {WinResult, LoseResult} from './model/Result';
-import GamePresenter from './model/GamePresenter';
+import Welcome from '../js/model/Welcome';
+import {WinResult, LoseResult} from '../js/model/Result';
+import GamePresenter from '../js/model/GamePresenter';
 import {statistics} from '../js/data';
 import {sortStat} from '../js/lib/utils';
+import Model from '../js/model/Model';
+
 const ControllerID = {
   WELCOME: ``,
   GAME: `game`,
@@ -15,11 +17,37 @@ const getControllerIDFromHash = (hash) => hash.replace(`#`, ``);
 class Application {
   constructor() {
     this.routes = {
-      [ControllerID.WELCOME]: Welcome,
-      [ControllerID.GAME]: GamePresenter,
       [ControllerID.STATS]: WinResult,
       [ControllerID.LOSE]: LoseResult
-    };
+    }
+    this.model = new class extends Model {
+      get urlRead() {
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
+      }
+
+      get urlWrite() {
+        return ``;
+      }
+    }();
+
+    this.model.load()
+      .then((data) => {
+
+        this.setup(data);
+      })
+      .then(() => this.changeController(getControllerIDFromHash(location.hash)))
+      .catch(console.error);
+
+
+  }
+
+  destroy() {
+    return new Application();
+  }
+
+  setup(data) {
+    this.routes[ControllerID.WELCOME] = new Welcome();
+    this.routes[ControllerID.GAME] = new GamePresenter(data);
 
     window.addEventListener(`hashchange`, () => {
       this.changeController(getControllerIDFromHash(location.hash));
@@ -49,8 +77,8 @@ class Application {
       });
 
     } else {
-      const Controller = this.routes[route];
-      new Controller().init();
+      this.routes[route].init();
+
     }
 
   }

@@ -1,27 +1,30 @@
 import renderElement from '../lib/render';
-import GamePresenter from '../model/GamePresenter';
+import GamePresenter, {timePassed} from '../model/GamePresenter';
 import player from '../view/PlayerView';
 import {checkAnswer, checkLives, rightAnswer} from '../lib/utils';
 import GuessGenreView from '../view/GuessGenreView';
 import initializePlayer from '../lib/player';
 import '../lib/time-format';
 import initializeCountdown from '../lib/timer';
+import {initialState} from '../data';
 
 
 class GuessGenre {
-  constructor(state) {
+  constructor(data, state = initialState) {
     this.state = Object.assign({}, state);
-    this.view = new GuessGenreView(this.state);
+    this.data = data;
+    this.view = new GuessGenreView(this.data, this.state);
   }
 
 
   init() {
+    console.log(this.data[this.state.currentIndex].answers)
     renderElement(this.view);
 
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
     playerWrappers.map((wrapper, index) => {
       wrapper.appendChild(player.cloneNode(true));
-      initializePlayer(wrapper, `${this.state.games[this.state.currentIndex].songs[index].path}`);
+      initializePlayer(wrapper, `${this.data[this.state.currentIndex].answers[index].src}`);
     });
 
     initializeCountdown(this.view.element, this.state);
@@ -43,9 +46,11 @@ class GuessGenre {
 
       let answersArray = [];
 
-      this.state.games[this.state.currentIndex].songs.map((song, index) => {
-        if ((song.isAnswer && checkboxes[index].checked) ||
-              (!song.isAnswer && !checkboxes[index].checked)) {
+      this.data[this.state.currentIndex].answers.map((song, index) => {
+        if ((song.genre === this.data[this.state.currentIndex].genre &&
+            checkboxes[index].checked) ||
+           (song.genre !== this.data[this.state.currentIndex].genre &&
+            !checkboxes[index].checked)) {
           answersArray.push(true);
         } else {
           answersArray.push(false);
@@ -58,10 +63,10 @@ class GuessGenre {
           this.state.incFail();
         }
       } else {
-        rightAnswer(window.timePassed, this.state);
+        rightAnswer(timePassed, this.state);
       }
       this.state.decQuestions();
-      this.view = new GamePresenter(this.state);
+      this.view = new GamePresenter(this.data, this.state);
       this.view.init();
 
     };

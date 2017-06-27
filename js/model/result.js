@@ -57,9 +57,9 @@ class WinResult {
     this.view.replay = () => {
       clearInterval(this.state.timer);
       this.view.state.scoresForAnswer = [];
-      this.view = new Welcome();
+      App.destroy();
       App.showWelcome();
-      this.view.init();
+
     };
   }
 
@@ -72,12 +72,14 @@ class LoseResult {
   }
   init() {
     renderElement(this.view);
-
+    clearInterval(this.state.timer);
     this.view.replay = () => {
-      clearInterval(this.state.timer);
       this.view = new Welcome();
       App.showWelcome();
+      App.destroy();
+
       this.view.init();
+
     };
   }
 }
