@@ -68,7 +68,7 @@ class Application {
           });
 
           const sortedStatistics = sortStat(data);
-
+           console.log(sortedStatistics);
           sortedStatistics.map((result, index) => {
             if (result.answers === resultSum) {
               state = sortedStatistics[index];

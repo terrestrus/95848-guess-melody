@@ -10,12 +10,9 @@ class WinResult {
   constructor(state, model) {
     this.state = Object.assign({}, state);
     this.model = model;
-    this.view = new WinResultView(this.state);
   }
 
   findPercent(latestResult) {
-
-
     const thisResult = location.hash.slice(6);
     this.showStats(thisResult);
 
@@ -48,19 +45,17 @@ class WinResult {
       renderElement(this.view);
 
     } else {
-
       this.state.latestResult = {
         time: this.state.totalTime,
         answers: this.state.playerAnswers,
-
       };
 
       this.findPercent(this.state.latestResult);
 
       App.showStats(this.state.scoresForAnswer);
+      this.view = new WinResultView(this.state.latestResult);
+
       renderElement(this.view);
-
-
     }
     this.view.replay = () => {
       clearInterval(this.state.timer);
