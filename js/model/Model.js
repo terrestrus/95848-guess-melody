@@ -15,6 +15,23 @@ class Model {
       .then();
 
   }
+
+  send(data, adapter = defaultAdapter) {
+    const requestSettings = {
+      body: adapter.toServer(data),
+      headers: {
+        'Content-Type': `application/json`
+      },
+      method: `POST`
+    };
+    return fetch(this.urlWrite, requestSettings);
+
+  }
+
+  getStat() {
+    return fetch(this.urlWrite)
+      .then((resp) => resp.json());
+  }
 }
 
 export default Model;

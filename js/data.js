@@ -24,10 +24,6 @@ const initialState = Object.freeze({
 });
 
 
-let statistics = [
-  {time: 22, answers: 8, moves: `22222222`},
-  {time: 12, answers: 9, moves: `222222222`},
-  {time: 24, answers: 10, moves: `2222222222`}
-];
 
-export {initialState, statistics};
+
+export {initialState};

@@ -10,9 +10,10 @@ import {initialState} from '../data';
 
 
 class GuessGenre {
-  constructor(data, state = initialState) {
+  constructor(data, model, state = initialState) {
     this.state = Object.assign({}, state);
     this.data = data;
+    this.model = model;
     this.view = new GuessGenreView(this.data, this.state);
   }
 
@@ -66,7 +67,7 @@ class GuessGenre {
         rightAnswer(timePassed, this.state);
       }
       this.state.decQuestions();
-      this.view = new GamePresenter(this.data, this.state);
+      this.view = new GamePresenter(this.data, this.model, this.state);
       this.view.init();
 
     };

@@ -10,9 +10,10 @@ import GamePresenter, {timePassed} from '../model/GamePresenter';
 import {rightAnswer} from '../lib/utils';
 
 class GuessSong {
-  constructor(data, state = initialState) {
+  constructor(data, model, state = initialState) {
     this.state = Object.assign({}, state);
     this.data = data;
+    this.model = model;
     this.view = new GuessSongView(this.data, this.state);
   }
 
@@ -43,7 +44,7 @@ class GuessSong {
 
 
       this.state.decQuestions();
-      this.view = new GamePresenter(this.data, this.state);
+      this.view = new GamePresenter(this.data, this.model, this.state);
       this.view.init();
     };
   }

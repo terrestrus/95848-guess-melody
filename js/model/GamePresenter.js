@@ -13,9 +13,10 @@ const GameType = {
 };
 
 class GamePresenter {
-  constructor(data, state = initialState) {
+  constructor(data, model, state = initialState) {
     this.state = Object.assign({}, state);
     this.data = data;
+    this.model = model;
   }
 
   init() {
@@ -59,8 +60,11 @@ class GamePresenter {
           this.state.totalTime = timePassed;
 
           timePassed = 0;
-          this.view = new WinResult(this.state);
+          this.model.send({time: this.state.totalTime,
+            answers: this.state.playerAnswers});
+          this.view = new WinResult(this.state, this.model);
           this.view.init();
+
 
           break;
         }
@@ -68,7 +72,7 @@ class GamePresenter {
         if (this.state.scoresForAnswer.length > 9) {
           this.state.scoresForAnswer = [];
         }
-        this.view = new GuessSong(this.data, this.state);
+        this.view = new GuessSong(this.data, this.model, this.state);
         this.view.init();
         break;
       case GameType.GENRE:
@@ -89,8 +93,11 @@ class GamePresenter {
           this.state.totalTime = timePassed;
 
           timePassed = 0;
-          this.view = new WinResult(this.state);
+          this.model.send({time: this.state.totalTime,
+            answers: this.state.playerAnswers});
+          this.view = new WinResult(this.state, this.model);
           this.view.init();
+
 
           break;
         }
@@ -98,7 +105,7 @@ class GamePresenter {
         if (this.state.scoresForAnswer.length > 9) {
           this.state.scoresForAnswer = [];
         }
-        this.view = new GuessGenre(this.data, this.state);
+        this.view = new GuessGenre(this.data, this.model, this.state);
         this.view.init();
 
     }

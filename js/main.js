@@ -1,7 +1,6 @@
 import Welcome from '../js/model/Welcome';
 import {WinResult, LoseResult} from '../js/model/Result';
 import GamePresenter from '../js/model/GamePresenter';
-import {statistics} from '../js/data';
 import {sortStat} from '../js/lib/utils';
 import Model from '../js/model/Model';
 
@@ -19,15 +18,16 @@ class Application {
     this.routes = {
       [ControllerID.STATS]: WinResult,
       [ControllerID.LOSE]: LoseResult
-    }
+    };
     this.model = new class extends Model {
       get urlRead() {
         return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
       }
 
       get urlWrite() {
-        return ``;
+        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/stats/:evgeniy95848`;
       }
+
     }();
 
     this.model.load()
@@ -47,7 +47,7 @@ class Application {
 
   setup(data) {
     this.routes[ControllerID.WELCOME] = new Welcome();
-    this.routes[ControllerID.GAME] = new GamePresenter(data);
+    this.routes[ControllerID.GAME] = new GamePresenter(data, this.model);
 
     window.addEventListener(`hashchange`, () => {
       this.changeController(getControllerIDFromHash(location.hash));
@@ -60,21 +60,33 @@ class Application {
       let state;
       const thisResult = location.hash.slice(6);
       this.showStats(thisResult);
-      const sortedStatistics = sortStat(statistics);
-      sortedStatistics.map((result, index) => {
-        if (result.moves === thisResult) {
-          state = sortedStatistics[index];
-          if ((index + 1) / sortedStatistics.length === 1) {
-            state.percent = 0;
-          } else {
-            state.percent = Math.round(100 - ((index + 1) / sortedStatistics.length * 100));
-          }
 
-          const Controller = this.routes[ControllerID.STATS];
-          new Controller(state).init();
+      this.model.getStat()
+        .then((data) => {
+          const resultSum = thisResult.split(``).reduce((prev, curr) => {
+            return +prev + +curr;
+          });
 
-        }
-      });
+          const sortedStatistics = sortStat(data);
+
+          sortedStatistics.map((result, index) => {
+            if (result.answers === resultSum) {
+              state = sortedStatistics[index];
+              if ((index + 1) / sortedStatistics.length === 1) {
+                state.percent = 0;
+              } else {
+                state.percent = Math.round(100 - ((index + 1) / sortedStatistics.length * 100));
+
+              }
+
+              const Controller = this.routes[ControllerID.STATS];
+              new Controller(state, this.model).init();
+
+            }
+          });
+
+        });
+
 
     } else {
       this.routes[route].init();

@@ -5,6 +5,7 @@ class GuessSongView extends AbstractView {
     super();
     this.state = Object.assign({}, state);
     this.data = data;
+
   }
 
   get template() {
