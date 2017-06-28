@@ -67,6 +67,7 @@ class WinResult {
       this.view.state.scoresForAnswer = [];
       App.destroy();
       App.showWelcome();
+      location.reload();
 
     };
   }
@@ -85,7 +86,7 @@ class LoseResult {
       this.view = new Welcome();
       App.showWelcome();
       App.destroy();
-
+      location.reload();
       this.view.init();
 
     };
