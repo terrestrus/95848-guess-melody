@@ -40,7 +40,7 @@ class WinResult {
   init() {
     if (!this.state.playerAnswers) {
 
-      this.view = new WinResultView(this.state, this.model);
+      this.view = new WinResultView(this.state);
 
       renderElement(this.view);
 
@@ -53,14 +53,11 @@ class WinResult {
       this.findPercent(this.state.latestResult);
 
       App.showStats(this.state.scoresForAnswer);
-      this.view = new WinResultView(this.state.latestResult);
 
-      renderElement(this.view);
     }
     this.view.replay = () => {
       clearInterval(this.state.timer);
       this.view.state.scoresForAnswer = [];
-      App.destroy();
       App.showWelcome();
       location.reload();
 

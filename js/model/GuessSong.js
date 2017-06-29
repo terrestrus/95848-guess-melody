@@ -7,7 +7,7 @@ import '../lib/animate.js';
 import GuessSongView from '../view/GuessSongView';
 import {initialState} from '../data';
 import GamePresenter, {timePassed} from '../model/GamePresenter';
-import {rightAnswer} from '../lib/utils';
+import {setRightAnswer} from '../lib/utils';
 
 class GuessSong {
   constructor(data, model, state = initialState) {
@@ -35,7 +35,7 @@ class GuessSong {
       });
       if (evt.target.value === answerTitle) {
 
-        rightAnswer(timePassed, this.state);
+        setRightAnswer(timePassed, this.state);
 
       } else {
         this.state.incFail();

@@ -1,7 +1,7 @@
 import renderElement from '../lib/render';
 import GamePresenter, {timePassed} from '../model/GamePresenter';
 import player from '../view/PlayerView';
-import {checkAnswer, checkLives, rightAnswer} from '../lib/utils';
+import {checkAnswer, checkLives, setRightAnswer} from '../lib/utils';
 import GuessGenreView from '../view/GuessGenreView';
 import initializePlayer from '../lib/player';
 import '../lib/time-format';
@@ -48,10 +48,11 @@ class GuessGenre {
       let answersArray = [];
 
       this.data[this.state.currentIndex].answers.map((song, index) => {
-        if ((song.genre === this.data[this.state.currentIndex].genre &&
+        let rightCheckboxes = ((song.genre === this.data[this.state.currentIndex].genre &&
             checkboxes[index].checked) ||
            (song.genre !== this.data[this.state.currentIndex].genre &&
-            !checkboxes[index].checked)) {
+            !checkboxes[index].checked));
+        if (rightCheckboxes) {
           answersArray.push(true);
         } else {
           answersArray.push(false);
@@ -64,7 +65,7 @@ class GuessGenre {
           this.state.incFail();
         }
       } else {
-        rightAnswer(timePassed, this.state);
+        setRightAnswer(timePassed, this.state);
       }
       this.state.decQuestions();
       this.view = new GamePresenter(this.data, this.model, this.state);

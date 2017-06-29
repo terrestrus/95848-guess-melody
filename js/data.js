@@ -11,8 +11,8 @@ const initialState = Object.freeze({
   decQuestions() {
     if (this.numberOfQuestions > 1 &&
         this.currentIndex < 9) {
-      this.numberOfQuestions--;
-      this.currentIndex++;
+      --this.numberOfQuestions;
+      ++this.currentIndex;
     }
   },
   incFail() {

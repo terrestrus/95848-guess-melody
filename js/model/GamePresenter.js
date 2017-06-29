@@ -3,7 +3,7 @@ import GuessSong from '../model/GuessSong';
 import {initialState} from '../data';
 import {LoseResult, WinResult} from '../model/Result';
 import App from '../main';
-import {rightAnswer} from '../lib/utils';
+import {setRightAnswer} from '../lib/utils';
 
 export let timePassed = 0;
 
@@ -52,7 +52,7 @@ class GamePresenter {
         }
 
         if (this.state.numberOfQuestions === 1) {
-          rightAnswer(timePassed, this.state);
+          setRightAnswer(timePassed, this.state);
 
           App.showStats(this.state.scoresForAnswer);
 
@@ -86,7 +86,7 @@ class GamePresenter {
         }
 
         if (this.state.numberOfQuestions === 1) {
-          rightAnswer(timePassed, this.state);
+          setRightAnswer(timePassed, this.state);
           App.showStats(this.state.scoresForAnswer);
 
           clearInterval(this.state.timer);
