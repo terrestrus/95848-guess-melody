@@ -20,8 +20,6 @@ class GamePresenter {
   }
 
   init() {
-    console.log(this.state);
-    console.log(this.data);
     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
@@ -38,78 +36,84 @@ class GamePresenter {
 
     }
 
+    if (this.data) {
+      switch (this.data[this.state.currentIndex].type) {
+        case GameType.ARTIST:
+          if (this.state.playerLives < 1) {
+            clearInterval(this.state.timer);
+            timePassed = 0;
 
-    switch (this.data[this.state.currentIndex].type) {
-      case GameType.ARTIST:
-        if (this.state.playerLives < 1) {
-          clearInterval(this.state.timer);
-          timePassed = 0;
+            App.showLose();
+            this.view = new LoseResult(this.state);
+            App.showLose();
+            this.view.init();
+            break;
+          }
 
-          App.showLose();
-          this.view = new LoseResult(this.state);
-          this.view.init();
-          break;
-        }
+          if (this.state.numberOfQuestions === 0) {
+            setRightAnswer(timePassed, this.state);
 
-        if (this.state.numberOfQuestions === 1) {
-          setRightAnswer(timePassed, this.state);
+            App.showStats(this.state.scoresForAnswer);
 
-          App.showStats(this.state.scoresForAnswer);
+            clearInterval(this.state.timer);
+            this.state.totalTime = timePassed;
 
-          clearInterval(this.state.timer);
+            timePassed = 0;
+            this.model.send({
+              time: this.state.totalTime,
+              answers: this.state.playerAnswers
+            });
+            this.view = new WinResult(this.state, this.model);
+            this.view.init();
+
+
+            break;
+          }
           this.state.totalTime = timePassed;
-
-          timePassed = 0;
-          this.model.send({time: this.state.totalTime,
-            answers: this.state.playerAnswers});
-          this.view = new WinResult(this.state, this.model);
-          this.view.init();
-
-
-          break;
-        }
-        this.state.totalTime = timePassed;
-        if (this.state.scoresForAnswer.length > 9) {
-          this.state.scoresForAnswer = [];
-        }
-        this.view = new GuessSong(this.data, this.model, this.state);
-        this.view.init();
-        break;
-      case GameType.GENRE:
-        if (this.state.playerLives < 1) {
-          App.showLose();
-          clearInterval(this.state.timer);
-          timePassed = 0;
-          this.view = new LoseResult(this.state);
+          if (this.state.scoresForAnswer.length > 9) {
+            this.state.scoresForAnswer = [];
+          }
+          this.view = new GuessSong(this.data, this.model, this.state);
           this.view.init();
           break;
-        }
+        case GameType.GENRE:
+          if (this.state.playerLives < 1) {
+            App.showLose();
+            clearInterval(this.state.timer);
+            timePassed = 0;
+            this.view = new LoseResult(this.state);
+            this.view.init();
+            break;
+          }
 
-        if (this.state.numberOfQuestions === 1) {
-          setRightAnswer(timePassed, this.state);
-          App.showStats(this.state.scoresForAnswer);
+          if (this.state.numberOfQuestions === 0) {
+            setRightAnswer(timePassed, this.state);
+            App.showStats(this.state.scoresForAnswer);
 
-          clearInterval(this.state.timer);
+            clearInterval(this.state.timer);
+            this.state.totalTime = timePassed;
+
+            timePassed = 0;
+            this.model.send({
+              time: this.state.totalTime,
+              answers: this.state.playerAnswers
+            });
+            this.view = new WinResult(this.state, this.model);
+            this.view.init();
+
+
+            break;
+          }
           this.state.totalTime = timePassed;
-
-          timePassed = 0;
-          this.model.send({time: this.state.totalTime,
-            answers: this.state.playerAnswers});
-          this.view = new WinResult(this.state, this.model);
+          if (this.state.scoresForAnswer.length > 9) {
+            this.state.scoresForAnswer = [];
+          }
+          this.view = new GuessGenre(this.data, this.model, this.state);
           this.view.init();
 
-
-          break;
-        }
-        this.state.totalTime = timePassed;
-        if (this.state.scoresForAnswer.length > 9) {
-          this.state.scoresForAnswer = [];
-        }
-        this.view = new GuessGenre(this.data, this.model, this.state);
-        this.view.init();
+      }
 
     }
-
   }
 
 

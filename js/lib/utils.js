@@ -1,5 +1,3 @@
-
-
 const checkAnswer = (state) => {
   return state.every((el) => el === true);
 };

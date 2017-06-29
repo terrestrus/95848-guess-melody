@@ -15,13 +15,10 @@ const getControllerIDFromHash = (hash) => hash.replace(`#`, ``);
 
 class Application {
   constructor() {
-    this.routes = {
-      [ControllerID.STATS]: WinResult,
-      [ControllerID.LOSE]: LoseResult
-    };
+
     this.model = new class extends Model {
       get urlRead() {
-        return `https://intensive-ecmascript-server-btfgudlkpi.now.sh/guess-melody/questions`;
+        return `https://intensive-ecmascript-server-wbcouextsi.now.sh/guess-melody/questions`;
       }
 
       get urlWrite() {
@@ -32,23 +29,29 @@ class Application {
 
     this.model.load()
       .then((data) => {
-
         this.setup(data);
       })
       .then(() => this.changeController(getControllerIDFromHash(location.hash)))
-      .catch(console.error);
+      .catch(() => {
+        throw new Error(`Can't download files from server`);
+      });
 
 
-  }
-
-  destroy() {
-    return new Application();
+    this.routes = {
+      [ControllerID.WELCOME]: new Welcome(),
+      [ControllerID.GAME]: new GamePresenter(),
+      [ControllerID.STATS]: WinResult,
+      [ControllerID.LOSE]: new LoseResult()
+    };
   }
 
   setup(data) {
-    this.routes[ControllerID.WELCOME] = new Welcome();
-    this.routes[ControllerID.GAME] = new GamePresenter(data, this.model);
-
+    this.routes = {
+      [ControllerID.WELCOME]: new Welcome(),
+      [ControllerID.GAME]: new GamePresenter(data, this.model),
+      [ControllerID.STATS]: WinResult,
+      [ControllerID.LOSE]: new LoseResult()
+    };
     window.addEventListener(`hashchange`, () => {
       this.changeController(getControllerIDFromHash(location.hash));
     });
@@ -56,7 +59,6 @@ class Application {
 
   changeController(route = ``) {
     if (route.startsWith(`stat=`)) {
-
       let state;
       const thisResult = location.hash.slice(6);
       this.showStats(thisResult);
@@ -68,7 +70,7 @@ class Application {
           });
 
           const sortedStatistics = sortStat(data);
-           console.log(sortedStatistics);
+
           sortedStatistics.map((result, index) => {
             if (result.answers === resultSum) {
               state = sortedStatistics[index];
@@ -84,15 +86,10 @@ class Application {
 
             }
           });
-
         });
-
-
     } else {
       this.routes[route].init();
-
     }
-
   }
 
   init() {

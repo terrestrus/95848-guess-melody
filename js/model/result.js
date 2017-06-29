@@ -10,11 +10,12 @@ class WinResult {
   constructor(state, model) {
     this.state = Object.assign({}, state);
     this.model = model;
+    this.view = new WinResultView(this.state);
   }
 
   findPercent(latestResult) {
     const thisResult = location.hash.slice(6);
-    this.showStats(thisResult);
+    App.showStats(thisResult);
 
     this.model.getStat()
       .then((data) => {
@@ -77,7 +78,6 @@ class LoseResult {
     this.view.replay = () => {
       this.view = new Welcome();
       App.showWelcome();
-      App.destroy();
       location.reload();
       this.view.init();
 

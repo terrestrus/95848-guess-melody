@@ -22,11 +22,11 @@ class GuessSong {
     renderElement(this.view);
     const wrapper = this.view.element.querySelector(`.player-wrapper`);
     wrapper.appendChild(player);
-    const newPlayer = initializePlayer(wrapper, this.data[this.state.currentIndex].src, true);
+    initializePlayer(wrapper, this.data[this.state.currentIndex].src, true);
     initializeCountdown(this.view.element, this.state);
 
     this.view.makeDecision = (evt) => {
-      newPlayer();
+
       let answerTitle;
       this.data[this.state.currentIndex].answers.map((answer) => {
         if (answer.isCorrect) {
@@ -34,12 +34,9 @@ class GuessSong {
         }
       });
       if (evt.target.value === answerTitle) {
-
         setRightAnswer(timePassed, this.state);
-
       } else {
         this.state.incFail();
-
       }
 
 

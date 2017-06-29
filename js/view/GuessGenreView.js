@@ -30,7 +30,7 @@ class GuessGenreView extends AbstractView {
       <h2 class="title">Выберите ${this.data[this.state.currentIndex].genre} треки</h2>
        <form class="genre">
          ${songs.map((song, index) =>
-   
+
       `<div class="genre-answer">
                         <div class="player-wrapper"></div>
                          <input type="checkbox" name="answer" value="${song.genre}" id="a-${index + 1}">

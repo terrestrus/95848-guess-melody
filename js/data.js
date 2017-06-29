@@ -9,9 +9,10 @@ const initialState = Object.freeze({
   scoresForAnswer: [],
 
   decQuestions() {
-    if (this.numberOfQuestions > 1 &&
-        this.currentIndex < 9) {
+    if (this.numberOfQuestions > 0) {
       --this.numberOfQuestions;
+    }
+    if (this.currentIndex < 9) {
       ++this.currentIndex;
     }
   },
@@ -22,8 +23,6 @@ const initialState = Object.freeze({
   }
 
 });
-
-
 
 
 export {initialState};

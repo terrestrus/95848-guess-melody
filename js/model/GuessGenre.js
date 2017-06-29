@@ -19,7 +19,6 @@ class GuessGenre {
 
 
   init() {
-    console.log(this.data[this.state.currentIndex].answers)
     renderElement(this.view);
 
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
