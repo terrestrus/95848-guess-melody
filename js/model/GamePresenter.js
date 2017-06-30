@@ -20,6 +20,7 @@ class GamePresenter {
   }
 
   init() {
+    this.model.load();
     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
