@@ -40,11 +40,8 @@ class WinResult {
   }
   init() {
     if (!this.state.playerAnswers) {
-
       this.view = new WinResultView(this.state);
-
       renderElement(this.view);
-
     } else {
       this.state.latestResult = {
         time: this.state.totalTime,
