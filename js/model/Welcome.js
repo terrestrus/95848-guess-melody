@@ -10,7 +10,6 @@ class Welcome {
 
   init() {
     renderElement(this.view);
-
     this.view.onStart = () => {
       App.showGame();
     };

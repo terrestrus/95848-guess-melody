@@ -1,5 +1,3 @@
-
-
 const checkAnswer = (state) => {
   return state.every((el) => el === true);
 };
@@ -16,7 +14,7 @@ const takeStat = (stat, state, time) => {
   stat.push({time, answers: state.playerAnswers});
 };
 
-const rightAnswer = (timePassed, state) => {
+const setRightAnswer = (timePassed, state) => {
   if (timePassed - state.totalTime < 10) {
     state.playerAnswers += 2;
     state.scoresForAnswer.push(2);
@@ -35,4 +33,4 @@ const sortStat = (stat) => {
 };
 
 
-export {checkAnswer, checkLives, takeStat, rightAnswer, sortStat};
+export {checkAnswer, checkLives, takeStat, setRightAnswer, sortStat};

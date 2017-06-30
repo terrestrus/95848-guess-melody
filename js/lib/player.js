@@ -1,3 +1,5 @@
+import windowAnimation from '../lib/animate';
+
 const updateState = (element, player) => {
   element.querySelector(`.player-status`).style.width =
       `${parseInt(player.currentTime * 100 / player.duration, 10)}%`;
@@ -12,8 +14,8 @@ const syncState = (player, element) => {
 const switchState = (state, player, element) => {
   if (player.paused) {
     player.play();
-    state.stopAnimation = window.animation.animate(
-        window.animation.getAnimation(player.currentTime, 1000, player.duration),
+    state.stopAnimation = windowAnimation.animate(
+        windowAnimation.getAnimation(player.currentTime, 1000, player.duration),
         (animation) => updateState(element, player));
   } else {
     player.pause();
@@ -28,6 +30,7 @@ const switchState = (state, player, element) => {
 const destroyPlayer = (element, state) => {
   const player = element.querySelector(`audio`);
   const button = element.querySelector(`button`);
+
 
   if (state.stopAnimation) {
     state.stopAnimation();
@@ -50,9 +53,12 @@ const initializePlayer = (element, file, autoplay = false, controllable = true) 
   const player = content.querySelector(`audio`);
   const button = content.querySelector(`button`);
 
+
   player.onloadeddata = () => {
     if (controllable) {
-      button.onclick = () => switchState(state, player, content);
+      button.onclick = () => {
+        switchState(state, player, content);
+      };
     }
 
     if (autoplay) {

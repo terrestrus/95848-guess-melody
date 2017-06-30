@@ -6,34 +6,42 @@ import initializeCountdown from '../lib/timer';
 import '../lib/animate.js';
 import GuessSongView from '../view/GuessSongView';
 import {initialState} from '../data';
-import GamePresenter from '../model/GamePresenter';
-import {rightAnswer} from '../lib/utils';
+import GamePresenter, {timePassed} from '../model/GamePresenter';
+import {setRightAnswer} from '../lib/utils';
 
 class GuessSong {
-  constructor(state = initialState) {
+  constructor(data, model, state = initialState) {
     this.state = Object.assign({}, state);
-    this.view = new GuessSongView(this.state);
+    this.data = data;
+    this.model = model;
+    this.view = new GuessSongView(this.data, this.state);
   }
 
 
   init() {
     renderElement(this.view);
-
     const wrapper = this.view.element.querySelector(`.player-wrapper`);
     wrapper.appendChild(player);
-    initializePlayer(wrapper, this.state.games[this.state.currentIndex].songToGuess.path, true);
-
+    initializePlayer(wrapper, this.data[this.state.currentIndex].src, true);
     initializeCountdown(this.view.element, this.state);
 
     this.view.makeDecision = (evt) => {
 
-      if (evt.target.value === this.state.games[this.state.currentIndex].songToGuess.title) {
-        rightAnswer(window.timePassed, this.state);
+      let answerTitle;
+      this.data[this.state.currentIndex].answers.map((answer) => {
+        if (answer.isCorrect) {
+          answerTitle = answer.title;
+        }
+      });
+      if (evt.target.value === answerTitle) {
+        setRightAnswer(timePassed, this.state);
       } else {
         this.state.incFail();
       }
+
+
       this.state.decQuestions();
-      this.view = new GamePresenter(this.state);
+      this.view = new GamePresenter(this.data, this.model, this.state);
       this.view.init();
     };
   }

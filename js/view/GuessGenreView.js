@@ -1,13 +1,15 @@
 import AbstractView from '../view/AbstractView';
 
 class GuessGenreView extends AbstractView {
-  constructor(state) {
+  constructor(data, state) {
     super();
     this.state = Object.assign({}, state);
+    this.data = data;
   }
 
   get template() {
-    const songs = this.state.games[this.state.currentIndex].songs;
+
+    const songs = this.data[this.state.currentIndex].answers;
 
     return `
       <section class="main main--level main--level-genre">
@@ -25,12 +27,13 @@ class GuessGenreView extends AbstractView {
         </svg>
       <div class="main-wrap">
       <div class="main-timer"></div>
-      <h2 class="title">Выберите инди-рок треки</h2>
+      <h2 class="title">Выберите ${this.data[this.state.currentIndex].genre} треки</h2>
        <form class="genre">
          ${songs.map((song, index) =>
+
       `<div class="genre-answer">
                         <div class="player-wrapper"></div>
-                         <input type="checkbox" name="answer" value="answer-1" id="a-${index + 1}">
+                         <input type="checkbox" name="answer" value="${song.genre}" id="a-${index + 1}">
                          <label class="genre-answer-check" for="a-${index + 1}"></label>
             
             </div>`).join(``)}
