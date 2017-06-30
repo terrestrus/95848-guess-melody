@@ -44,7 +44,6 @@ class Application {
       [ControllerID.LOSE]: new LoseResult()
     };
   }
-
   setup(data) {
     this.routes = {
       [ControllerID.WELCOME]: new Welcome(),

@@ -1,4 +1,4 @@
-import defaultAdapter from './Adapter';
+import defaultAdapter from '../model/Adapter';
 
 class Model {
   get urlRead() {
