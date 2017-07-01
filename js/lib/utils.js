@@ -32,5 +32,19 @@ const sortStat = (stat) => {
 
 };
 
+const preloadAudio = (urls = []) => {
+  if (!Array.isArray(urls)) {
+    throw new Error(`Invalid parameter.`);
+  }
 
-export {checkAnswer, checkLives, takeStat, setRightAnswer, sortStat};
+  urls = urls.filter((value, index, self) => value !== `` && self.indexOf(value) === index);
+  return Promise.all(urls.map((url) => new Promise((resolve) => {
+    const audio = new Audio();
+    audio.addEventListener(`canplaythrough`, resolve, false);
+    audio.src = url;
+  })));
+
+};
+
+
+export {checkAnswer, checkLives, takeStat, setRightAnswer, sortStat, preloadAudio};

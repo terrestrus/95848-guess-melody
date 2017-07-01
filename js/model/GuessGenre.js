@@ -22,10 +22,13 @@ class GuessGenre {
     renderElement(this.view);
 
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
+
+
     playerWrappers.map((wrapper, index) => {
       wrapper.appendChild(player.cloneNode(true));
       initializePlayer(wrapper, `${this.data[this.state.currentIndex].answers[index].src}`);
     });
+
 
     initializeCountdown(this.view.element, this.state);
 
