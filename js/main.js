@@ -51,7 +51,7 @@ class Application {
             throw new Error(`Can't download files from server`);
           });
 
-       });
+      });
 
     this.routes = {
       [ControllerID.WELCOME]: new Welcome(),
@@ -140,13 +140,6 @@ const app = new Application();
 app.init();
 
 export default app;
-
-
-
-
-
-
-
 
 
 //

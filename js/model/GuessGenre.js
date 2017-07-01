@@ -29,6 +29,23 @@ class GuessGenre {
       initializePlayer(wrapper, `${this.data[this.state.currentIndex].answers[index].src}`);
     });
 
+    const players = Array.from(this.view.element.querySelectorAll(`audio`));
+    const stopAllPlayersExceptOne = (playerIndex) => {
+      players.forEach((playa, index) => {
+        if (index !== playerIndex) {
+          playa.pause();
+          playa.currentTime = 0;
+        }
+      });
+    };
+
+    Array.from(this.view.element.querySelectorAll(`.player-control`)).forEach((el, index) => {
+      el.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        stopAllPlayersExceptOne(index);
+      });
+    });
+
 
     initializeCountdown(this.view.element, this.state);
 
