@@ -7,7 +7,7 @@ import {setRightAnswer} from '../lib/utils';
 
 export let timePassed = 0;
 
-const GameType = {
+export const GameType = {
   GENRE: `genre`,
   ARTIST: `artist`
 };
@@ -20,7 +20,6 @@ class GamePresenter {
   }
 
   init() {
-    this.model.load();
     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
