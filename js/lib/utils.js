@@ -37,7 +37,9 @@ const preloadAudio = (urls = []) => {
     throw new Error(`Invalid parameter.`);
   }
 
-  urls = urls.filter((value, index, self) => value !== `` && self.indexOf(value) === index);
+  urls = urls.filter((value, index, self) => {
+    return value !== `` && self.indexOf(value) === index;
+  });
   return Promise.all(urls.map((url) => new Promise((resolve) => {
     const audio = new Audio();
     audio.addEventListener(`canplaythrough`, resolve, false);
