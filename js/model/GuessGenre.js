@@ -29,6 +29,24 @@ class GuessGenre {
       initializePlayer(wrapper, `${this.data[this.state.currentIndex].answers[index].src}`);
     });
 
+    const players = Array.from(this.view.element.querySelectorAll(`audio`));
+    const stopAllPlayersExceptOne = (playerIndex) => {
+      players.forEach((playa, index) => {
+        if (index !== playerIndex) {
+          playa.pause();
+          playa.currentTime = 0;
+        }
+      });
+    };
+
+    const playerControls = Array.from(this.view.element.querySelectorAll(`.player-control`));
+    playerControls.forEach((el, index) => {
+      el.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        stopAllPlayersExceptOne(index);
+      });
+    });
+
 
     initializeCountdown(this.view.element, this.state);
 
@@ -62,16 +80,27 @@ class GuessGenre {
       });
 
 
-      if (!checkAnswer(answersArray)) {
-        if (checkLives(this.state.playerLives)) {
-          this.state.incFail();
-        }
+      if (!checkAnswer(answersArray) && checkLives(this.state.playerLives)) {
+        this.state.incFail();
       } else {
         setRightAnswer(timePassed, this.state);
       }
       this.state.decQuestions();
+
+      checkboxes.forEach((box) => {
+        const changeBtnState = () => {
+          resultBtn.disabled = !box.checked;
+        };
+        box.removeEventListener(`click`, changeBtnState);
+      });
+      playerControls.forEach((el) => {
+        el.removeEventListener(`click`, stopAllPlayersExceptOne);
+      });
+
+
       this.view = new GamePresenter(this.data, this.model, this.state);
       this.view.init();
+
 
     };
 

@@ -5,6 +5,8 @@ import {sortStat} from '../js/lib/utils';
 import Model from '../js/model/Model';
 import {GameType} from '../js/model/GamePresenter';
 import {preloadAudio} from '../js/lib/utils';
+import Preloader from '../js/view/PreloaderView';
+import renderElement from '../js/lib/render';
 
 const ControllerID = {
   WELCOME: ``,
@@ -31,6 +33,7 @@ class Application {
 
     this.model.load()
       .then((data) => {
+        const preloader = this.showPreloader();
         const urls = data.reduce((result, current) => {
           switch (current.type) {
             case GameType.ARTIST:
@@ -45,13 +48,18 @@ class Application {
         }, []);
 
         preloadAudio(urls)
-          .then(() => this.setup(data))
-          .then(() => this.changeController(getControllerIDFromHash(location.hash)))
+          .then(() => {
+
+            this._setup(data);
+            preloader();
+          })
+
+          .then(() => this._changeController(getControllerIDFromHash(location.hash)))
           .catch(() => {
             throw new Error(`Can't download files from server`);
           });
 
-       });
+      });
 
     this.routes = {
       [ControllerID.WELCOME]: new Welcome(),
@@ -61,7 +69,7 @@ class Application {
     };
 
   }
-  setup(data) {
+  _setup(data) {
     this.routes = {
       [ControllerID.WELCOME]: new Welcome(),
       [ControllerID.GAME]: new GamePresenter(data, this.model),
@@ -69,12 +77,13 @@ class Application {
       [ControllerID.LOSE]: new LoseResult()
     };
     window.addEventListener(`hashchange`, () => {
-      this.changeController(getControllerIDFromHash(location.hash));
+      this._changeController(getControllerIDFromHash(location.hash));
     });
   }
 
-  changeController(route = ``) {
+  _changeController(route = ``) {
     if (route.startsWith(`stat=`)) {
+      const preloader = this.showPreloader();
       let state;
       const thisResult = location.hash.slice(6);
       this.showStats(thisResult);
@@ -98,6 +107,7 @@ class Application {
               }
 
               const Controller = this.routes[ControllerID.STATS];
+              preloader();
               new Controller(state, this.model).init();
 
             }
@@ -109,7 +119,15 @@ class Application {
   }
 
   init() {
-    this.changeController(getControllerIDFromHash(location.hash));
+    this._changeController(getControllerIDFromHash(location.hash));
+  }
+
+  showPreloader() {
+    const preloader = new Preloader();
+    renderElement(preloader);
+    preloader.start();
+
+    return () => preloader.hide();
   }
 
   showWelcome() {
@@ -140,36 +158,3 @@ const app = new Application();
 app.init();
 
 export default app;
-
-
-
-
-
-
-
-
-
-//
-// init() {
-//   this.showPreloader();
-//
-//   QuestionModel.load()
-//     .then((data) => {
-//       const urls = data.reduce((result, current) => {
-//         switch (current.type) {
-//           case QuestionType.ARTIST:
-//             result.push(current.src);
-//             break;
-//           case QuestionType.GENRE:
-//             result = result.concat(current.answers.map((answer) => answer.src));
-//             break;
-//         }
-//
-//         return result;
-//       }, []);
-//
-//       preloadAudio(urls)
-//         .then(() => this._setup(data))
-//         .then(() => this._changePresenter(location.hash));
-//     });
-// }
