@@ -1,4 +1,4 @@
-import windowAnimation from '../lib/animate';
+import windowAnimation from './Animate';
 
 const updateState = (element, player) => {
   element.querySelector(`.player-status`).style.width =

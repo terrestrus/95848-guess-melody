@@ -1,6 +1,6 @@
 import assert from 'assert';
-import {initialState} from '../data.js';
-import {checkAnswer, checkLives, sortStat} from '../lib/utils.js';
+import {initialState} from '../Data.js';
+import {checkAnswer, checkLives, sortStat} from '../lib/Utils.js';
 
 describe(`The number of questions`, () => {
   it(`should be 10 questions in the game`, () => {

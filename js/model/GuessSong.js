@@ -1,13 +1,13 @@
-import renderElement from '../lib/render';
+import renderElement from '../lib/Render';
 import player from '../view/PlayerView';
-import initializePlayer from '../lib/player';
-import '../lib/time-format';
-import initializeCountdown from '../lib/timer';
-import '../lib/animate.js';
+import initializePlayer from '../lib/Player';
+import '../lib/Time-format';
+import initializeCountdown from '../lib/Timer';
+import '../lib/Animate.js';
 import GuessSongView from '../view/GuessSongView';
-import {initialState} from '../data';
+import {initialState} from '../Data';
 import GamePresenter, {timePassed} from '../model/GamePresenter';
-import {setRightAnswer} from '../lib/utils';
+import {setRightAnswer} from '../lib/Utils';
 
 class GuessSong {
   constructor(data, model, state = initialState) {

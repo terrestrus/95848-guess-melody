@@ -1,6 +1,6 @@
-import renderElement from '../lib/render';
+import renderElement from '../lib/Render';
 import WelcomeView from '../view/WelcomeView';
-import App from '../main';
+import App from '../Main';
 
 
 class Welcome {

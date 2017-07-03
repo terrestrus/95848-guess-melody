@@ -1,12 +1,12 @@
-import renderElement from '../lib/render';
+import renderElement from '../lib/Render';
 import GamePresenter, {timePassed} from '../model/GamePresenter';
 import player from '../view/PlayerView';
-import {checkAnswer, checkLives, setRightAnswer} from '../lib/utils';
+import {checkAnswer, checkLives, setRightAnswer} from '../lib/Utils';
 import GuessGenreView from '../view/GuessGenreView';
-import initializePlayer from '../lib/player';
-import '../lib/time-format';
-import initializeCountdown from '../lib/timer';
-import {initialState} from '../data';
+import initializePlayer from '../lib/Player';
+import '../lib/Time-format';
+import initializeCountdown from '../lib/Timer';
+import {initialState} from '../Data';
 
 
 class GuessGenre {
@@ -24,17 +24,17 @@ class GuessGenre {
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
 
 
-    playerWrappers.map((wrapper, index) => {
+    playerWrappers.forEach((wrapper, index) => {
       wrapper.appendChild(player.cloneNode(true));
       initializePlayer(wrapper, `${this.data[this.state.currentIndex].answers[index].src}`);
     });
 
     const players = Array.from(this.view.element.querySelectorAll(`audio`));
     const stopAllPlayersExceptOne = (playerIndex) => {
-      players.forEach((playa, index) => {
+      players.forEach((audioPlayer, index) => {
         if (index !== playerIndex) {
-          playa.pause();
-          playa.currentTime = 0;
+          audioPlayer.pause();
+          audioPlayer.currentTime = 0;
         }
       });
     };
@@ -65,15 +65,15 @@ class GuessGenre {
 
     this.view.makeDecision = () => {
 
-      let answersArray = [];
+      const answersArray = [];
 
-      this.data[this.state.currentIndex].answers.map((song, index) => {
+      this.data[this.state.currentIndex].answers.forEach((song, index) => {
         const answerCheckboxChecked = (song.genre === this.data[this.state.currentIndex].genre &&
         checkboxes[index].checked);
         const wrongCheckboxNotChecked = (song.genre !== this.data[this.state.currentIndex].genre &&
         !checkboxes[index].checked);
 
-        let rightCheckboxes = (answerCheckboxChecked || wrongCheckboxNotChecked);
+        const rightCheckboxes = (answerCheckboxChecked || wrongCheckboxNotChecked);
 
         answersArray.push(rightCheckboxes);
 

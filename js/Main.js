@@ -2,12 +2,12 @@ import Welcome from '../js/model/Welcome';
 import WinResult from '../js/model/WinResult';
 import LoseResult from '../js/model/LoseResult';
 import GamePresenter from '../js/model/GamePresenter';
-import {sortStat} from '../js/lib/utils';
+import {sortStat} from './lib/Utils';
 import Model from '../js/model/Model';
 import {GameType} from '../js/model/GamePresenter';
-import {preloadAudio} from '../js/lib/utils';
+import {preloadAudio} from './lib/Utils';
 import Preloader from '../js/view/PreloaderView';
-import renderElement from '../js/lib/render';
+import renderElement from './lib/Render';
 
 const ControllerID = {
   WELCOME: ``,
@@ -141,7 +141,7 @@ class Application {
 
   showStats(state) {
     if (state) {
-      let scores = state.toString().replace(/,/gi, ``);
+      const scores = state.toString().replace(/,/gi, ``);
       location.hash = ControllerID.STATS + `=${scores}`;
     } else {
       location.hash = ControllerID.STATS;

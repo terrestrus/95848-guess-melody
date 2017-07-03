@@ -1,5 +1,5 @@
-import renderElement from '../lib/render';
-import App from '../main';
+import renderElement from '../lib/Render';
+import App from '../Main';
 import LoseResultView from '../view/LoseResultView';
 import Welcome from '../model/Welcome';
 

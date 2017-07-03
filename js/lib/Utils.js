@@ -6,7 +6,7 @@ const checkLives = (lives) => {
   if (lives < 0) {
     throw new Error(`Lives can't be negative`);
   }
-  return (lives > 0) ? true : false;
+  return (lives > 0);
 };
 
 

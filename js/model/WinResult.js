@@ -1,7 +1,7 @@
-import renderElement from '../lib/render';
+import renderElement from '../lib/Render';
 import WinResultView from '../view/WinResultView';
-import App from '../main';
-import {sortStat} from '../lib/utils';
+import App from '../Main';
+import {sortStat} from '../lib/Utils';
 
 
 class WinResult {
@@ -11,7 +11,7 @@ class WinResult {
     this.view = new WinResultView(this.state);
   }
 
-  findPercent(latestResult) {
+  findPercent() {
     const thisResult = location.hash.slice(6);
     App.showStats(thisResult);
 
@@ -23,7 +23,7 @@ class WinResult {
 
         const sortedStatistics = sortStat(data);
 
-        sortedStatistics.map((result, index) => {
+        sortedStatistics.forEach((result, index) => {
           if (result.answers === resultSum) {
             this.state = sortedStatistics[index];
             if ((index + 1) / sortedStatistics.length === 1) {
@@ -46,7 +46,7 @@ class WinResult {
         answers: this.state.playerAnswers,
       };
 
-      this.findPercent(this.state.latestResult);
+      this.findPercent();
 
       App.showStats(this.state.scoresForAnswer);
 
