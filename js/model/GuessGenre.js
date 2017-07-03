@@ -68,15 +68,15 @@ class GuessGenre {
       let answersArray = [];
 
       this.data[this.state.currentIndex].answers.map((song, index) => {
-        let rightCheckboxes = ((song.genre === this.data[this.state.currentIndex].genre &&
-            checkboxes[index].checked) ||
-           (song.genre !== this.data[this.state.currentIndex].genre &&
-            !checkboxes[index].checked));
-        if (rightCheckboxes) {
-          answersArray.push(true);
-        } else {
-          answersArray.push(false);
-        }
+        const answerCheckboxChecked = (song.genre === this.data[this.state.currentIndex].genre &&
+        checkboxes[index].checked);
+        const wrongCheckboxNotChecked = (song.genre !== this.data[this.state.currentIndex].genre &&
+        !checkboxes[index].checked);
+
+        let rightCheckboxes = (answerCheckboxChecked || wrongCheckboxNotChecked);
+
+        answersArray.push(rightCheckboxes);
+
       });
 
 

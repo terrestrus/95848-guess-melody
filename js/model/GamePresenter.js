@@ -1,7 +1,8 @@
 import GuessGenre from '../model/GuessGenre';
 import GuessSong from '../model/GuessSong';
 import {initialState} from '../data';
-import {LoseResult, WinResult} from '../model/Result';
+import LoseResult from '../model/LoseResult';
+import WinResult from '../model/WinResult';
 import App from '../main';
 import {setRightAnswer} from '../lib/utils';
 

@@ -1,5 +1,6 @@
 import Welcome from '../js/model/Welcome';
-import {WinResult, LoseResult} from '../js/model/Result';
+import WinResult from '../js/model/WinResult';
+import LoseResult from '../js/model/LoseResult';
 import GamePresenter from '../js/model/GamePresenter';
 import {sortStat} from '../js/lib/utils';
 import Model from '../js/model/Model';
