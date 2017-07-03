@@ -1,6 +1,6 @@
 class Adapter {
 
-  toServer(data) {
+  encodeData(data) {
     return JSON.stringify(data);
   }
 }

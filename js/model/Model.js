@@ -18,7 +18,7 @@ class Model {
 
   send(data, adapter = defaultAdapter) {
     const requestSettings = {
-      body: adapter.toServer(data),
+      body: adapter.encodeData(data),
       headers: {
         'Content-Type': `application/json`
       },
