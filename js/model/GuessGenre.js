@@ -54,12 +54,15 @@ class GuessGenre {
     const checkboxes = this.view.element.querySelectorAll(`input`);
     const resultBtn = this.view.element.querySelector(`.genre-answer-send`);
 
+    const changeBtnState = (box) => {
+      resultBtn.disabled = !box.checked;
+    };
+
     checkboxes.forEach((box) => {
       resultBtn.disabled = true;
-      const changeBtnState = () => {
-        resultBtn.disabled = !box.checked;
-      };
-      box.addEventListener(`click`, changeBtnState);
+      box.addEventListener(`click`, () => {
+        changeBtnState(box);
+      });
     });
 
 
@@ -88,9 +91,6 @@ class GuessGenre {
       this.state.decQuestions();
 
       checkboxes.forEach((box) => {
-        const changeBtnState = () => {
-          resultBtn.disabled = !box.checked;
-        };
         box.removeEventListener(`click`, changeBtnState);
       });
       playerControls.forEach((el) => {
