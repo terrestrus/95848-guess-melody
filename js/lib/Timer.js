@@ -11,8 +11,8 @@
 // Длина окружности = 2πR
 // Длина шага = Длина окружности / Количество шагов
 // Пропуск = Длина шага * Номер шага
-import windowAnimation from '../lib/animate';
-import formatTime from '../lib/time-format';
+import windowAnimation from './Animate';
+import formatTime from './Time-format';
 
 const redrawCircle = (circle, radius, animation) => {
   const length = 2 * Math.PI * radius;
@@ -46,8 +46,8 @@ const initializeCountdown = (el, state) => {
   const element = el.querySelector(`.timer-line`);
   const radius = parseInt(element.getAttributeNS(null, `r`), 10);
   const timer = el.querySelector(`.timer-value`);
-  return windowAnimation.animate(windowAnimation.getAnimation(state.totalTime, 1000, `${120 - state.totalTime}`), (animation) => {
 
+  return windowAnimation.animate(windowAnimation.getAnimation(state.totalTime, 1000, 120), (animation) => {
     redrawCircle(element, radius, animation);
     redrawTimer(timer, animation);
 
