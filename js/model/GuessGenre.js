@@ -23,12 +23,13 @@ class GuessGenre {
 
     const playerControls = Array.from(this.view.element.querySelectorAll(`.player-control`));
     const checkboxes = this.view.element.querySelectorAll(`input`);
+    let changeBtnState;
 
     this._addPlayers();
 
     initializeCountdown(this.view.element, this.state);
 
-    this._checkboxesCheck();
+    this._enableAnswerButton();
 
     this.view.makeDecision = () => {
 
@@ -54,9 +55,9 @@ class GuessGenre {
       }
       this.state.decQuestions();
 
-      // checkboxes.forEach((box) => {
-      //   box.removeEventListener(`click`, changeBtnState);
-      // });
+      checkboxes.forEach((box) => {
+        box.removeEventListener(`click`, changeBtnState);
+      });
       playerControls.forEach((el) => {
         el.removeEventListener(`click`, stopAllPlayersExceptOne);
       });
@@ -64,29 +65,26 @@ class GuessGenre {
 
       this.view = new GamePresenter(this.data, this.model, this.state);
       this.view.init();
-
-
     };
 
 
   }
 
 
-  _checkboxesCheck() {
+  _enableAnswerButton(changeBtnState) {
     const checkboxes = this.view.element.querySelectorAll(`input`);
     const resultBtn = this.view.element.querySelector(`.genre-answer-send`);
 
-    const changeBtnState = (box) => {
-      resultBtn.disabled = !box.checked;
-    };
 
     checkboxes.forEach((box) => {
       resultBtn.disabled = true;
-      box.addEventListener(`click`, () => {
-        changeBtnState(box);
-      });
+      changeBtnState = () => {
+        resultBtn.disabled = !box.checked;
+      };
+      box.addEventListener(`click`, changeBtnState);
     });
   }
+
 
   _addPlayers() {
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));

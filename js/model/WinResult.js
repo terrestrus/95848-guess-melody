@@ -42,6 +42,7 @@ class WinResult {
       };
       App.showStats(this.state.scoresForAnswer);
       this.findPercent(this.state.latestResult);
+
     }
 
     this.view.replay = () => {
