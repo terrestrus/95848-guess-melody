@@ -29,23 +29,29 @@ class GamePresenter {
   }
 
   _playerWin() {
-    setRightAnswer(timePassed, this.state);
-    App.showStats(this.state.scoresForAnswer);
-
-    clearInterval(this.state.timer);
-    this.state.totalTime = timePassed;
-
-    timePassed = 0;
     this.model.send({
       time: this.state.totalTime,
       answers: this.state.playerAnswers
-    });
-    this.view = new WinResult(this.state, this.model);
-    this.view.init();
+    })
+      .then(() => {
+        setRightAnswer(timePassed, this.state);
+        clearInterval(this.state.timer);
+        this.state.totalTime = timePassed;
+
+        timePassed = 0;
+
+        this.view = new WinResult(this.state, this.model);
+        this.view.init();
+        App.showStats(this.state.scoresForAnswer);
+      })
+      .catch(() => {
+        throw new Error(`Can't send data to server`);
+      });
+
   }
 
   init() {
-    if (this.state.numberOfQuestions === 10) {
+     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
         if (timePassed === 120) {
