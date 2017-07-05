@@ -86,7 +86,9 @@ class Application {
     if (route.startsWith(`stat=`)) {
       const preloader = this.showPreloader();
       let state;
+
       const thisResult = location.hash.slice(6);
+
       this.showStats(thisResult);
 
       this.model.getStat()
@@ -99,6 +101,7 @@ class Application {
 
           sortedStatistics.map((result, index) => {
             if (result.answers === resultSum) {
+
               state = sortedStatistics[index];
               if ((index + 1) / sortedStatistics.length === 1) {
                 state.percent = 0;
@@ -113,7 +116,17 @@ class Application {
 
             }
           });
+          const haveResult = sortedStatistics.some((result) => {
+            return result.answers === resultSum;
+          });
+
+          if (!haveResult) {
+            this.showWelcome();
+            location.reload();
+            throw new Error(`Doesn't have this result value on server`);
+          }
         });
+
     } else {
       this.routes[route].init();
     }

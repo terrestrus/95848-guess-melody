@@ -11,9 +11,7 @@ class Model {
 
   load() {
     return fetch(this.urlRead)
-      .then((resp) => resp.json())
-      .then();
-
+      .then((resp) => resp.json());
   }
 
   send(data, adapter = defaultAdapter) {
@@ -30,7 +28,10 @@ class Model {
 
   getStat() {
     return fetch(this.urlWrite)
-      .then((resp) => resp.json());
+      .then((resp) => resp.json())
+      .catch(() => {
+        throw new Error(`Can't load statistics from server`);
+      });
   }
 }
 

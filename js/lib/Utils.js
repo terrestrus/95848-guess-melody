@@ -48,5 +48,14 @@ const preloadAudio = (urls = []) => {
 
 };
 
+const stopAllPlayersExceptOne = (players, playerIndex) => {
+  players.forEach((audioPlayer, index) => {
+    if (index !== playerIndex) {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+    }
+  });
+};
 
-export {checkAnswer, checkLives, takeStat, setRightAnswer, sortStat, preloadAudio};
+
+export {checkAnswer, checkLives, takeStat, setRightAnswer, sortStat, preloadAudio, stopAllPlayersExceptOne};
