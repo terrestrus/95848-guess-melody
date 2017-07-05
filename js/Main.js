@@ -1,5 +1,5 @@
 import Welcome from '../js/model/Welcome';
-import WinResult from '../js/model/WinResult';
+import WinResult, {latestResult} from '../js/model/WinResult';
 import LoseResult from '../js/model/LoseResult';
 import GamePresenter from '../js/model/GamePresenter';
 import {sortStat} from './lib/Utils';
@@ -101,8 +101,7 @@ class Application {
 
           sortedStatistics.map((result, index) => {
             if (result.answers === resultSum) {
-
-              state = sortedStatistics[index];
+              state = latestResult || sortedStatistics[index];
               if ((index + 1) / sortedStatistics.length === 1) {
                 state.percent = 0;
               } else {
