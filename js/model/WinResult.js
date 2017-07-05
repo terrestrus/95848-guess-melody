@@ -11,20 +11,15 @@ class WinResult {
     this.view = new WinResultView(this.state);
   }
 
-  findPercent() {
-    const thisResult = location.hash.slice(6);
-    App.showStats(thisResult);
+  findPercent(latest) {
 
     this.model.getStat()
       .then((data) => {
-        const resultSum = thisResult.split(``).reduce((prev, curr) => {
-          return +prev + +curr;
-        });
-
         const sortedStatistics = sortStat(data);
 
         sortedStatistics.forEach((result, index) => {
-          if (result.answers === resultSum) {
+          if (result.answers === latest.answers &&
+            result.time === latest.time) {
             this.state = sortedStatistics[index];
             if ((index + 1) / sortedStatistics.length === 1) {
               this.state.percent = 0;
@@ -45,12 +40,10 @@ class WinResult {
         time: this.state.totalTime,
         answers: this.state.playerAnswers,
       };
-
-      this.findPercent();
-
       App.showStats(this.state.scoresForAnswer);
-
+      this.findPercent(this.state.latestResult);
     }
+
     this.view.replay = () => {
       clearInterval(this.state.timer);
       this.view.state.scoresForAnswer = [];
