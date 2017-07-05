@@ -46,7 +46,6 @@ class GamePresenter {
   }
 
   init() {
-    console.log(this.data);
     if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {

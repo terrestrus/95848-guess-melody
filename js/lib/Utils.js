@@ -48,7 +48,7 @@ const preloadAudio = (urls = []) => {
 
 };
 
-const stopAllPlayersExceptOne = (players,playerIndex) => {
+const stopAllPlayersExceptOne = (players, playerIndex) => {
   players.forEach((audioPlayer, index) => {
     if (index !== playerIndex) {
       audioPlayer.pause();
