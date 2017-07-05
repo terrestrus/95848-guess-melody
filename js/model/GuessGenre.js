@@ -54,9 +54,6 @@ class GuessGenre {
       }
       this.state.decQuestions();
 
-      // checkboxes.forEach((box) => {
-      //   box.removeEventListener(`click`, changeBtnState);
-      // });
       playerControls.forEach((el) => {
         el.removeEventListener(`click`, stopAllPlayersExceptOne);
       });

@@ -51,7 +51,7 @@ class GamePresenter {
   }
 
   init() {
-     if (this.state.numberOfQuestions === 10) {
+    if (this.state.numberOfQuestions === 10) {
 
       this.state.timer = setInterval(() => {
         if (timePassed === 120) {
