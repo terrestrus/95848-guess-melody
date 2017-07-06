@@ -24,6 +24,7 @@ class GuessGenre {
     const playerControls = Array.from(this.view.element.querySelectorAll(`.player-control`));
     const checkboxes = this.view.element.querySelectorAll(`input`);
     let changeBtnState;
+    let stopPlayers;
 
     this._addPlayers();
 
@@ -59,7 +60,7 @@ class GuessGenre {
         box.removeEventListener(`click`, changeBtnState);
       });
       playerControls.forEach((el) => {
-        el.removeEventListener(`click`, stopAllPlayersExceptOne);
+        el.removeEventListener(`click`, stopPlayers);
       });
 
 
@@ -86,7 +87,7 @@ class GuessGenre {
   }
 
 
-  _addPlayers() {
+  _addPlayers(stopPlayers) {
     const playerWrappers = Array.from(this.view.element.querySelectorAll(`.player-wrapper`));
 
     playerWrappers.forEach((wrapper, index) => {
@@ -98,10 +99,10 @@ class GuessGenre {
     const playerControls = Array.from(this.view.element.querySelectorAll(`.player-control`));
 
     playerControls.forEach((el, index) => {
-      el.addEventListener(`click`, (evt) => {
-        evt.preventDefault();
+      stopPlayers = () => {
         stopAllPlayersExceptOne(players, index);
-      });
+      };
+      el.addEventListener(`click`, stopPlayers);
     });
   }
 
